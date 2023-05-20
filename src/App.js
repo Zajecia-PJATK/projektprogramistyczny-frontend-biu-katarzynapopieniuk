@@ -6,14 +6,15 @@ import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProductPage from "./pages/ProductPage";
+import {FaShoppingCart} from "react-icons/fa";
 
 function App() {
   return (
     <div className="App">
-        <nav>
+        <nav className="navigation">
             <ul>
                 <li><Link to="/">Home</Link></li>
-                <li><Link to="/cart">Cart</Link></li>
+                <li><Link to="/cart">Cart <FaShoppingCart size="30"/></Link></li>
             </ul>
         </nav>
         <Routes>

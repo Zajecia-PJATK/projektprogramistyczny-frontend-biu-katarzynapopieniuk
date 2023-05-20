@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.navigation {
+  width: 100%;
+  height: 80px;
+  background-color: rgb(70, 60, 110);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.navigation ul {
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.navigation ul li {
+  margin-left: 20px;
+  list-style-type: none;
+}
+
+.navigation ul li a{
+  text-decoration: none;
+  color: white;
+  font-size: 25px;
+  list-style-type: none;
+}

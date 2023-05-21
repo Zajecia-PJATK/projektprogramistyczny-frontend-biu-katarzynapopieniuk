@@ -1,8 +1,9 @@
 import React from 'react';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import getMessage from "../common/LanguageVersionMessageFinder";
 
-export const SignupForm = () => {
+export default function SignupForm({languageVersion}) {
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -34,61 +35,61 @@ export const SignupForm = () => {
         <div className="bg-grey-lighter min-h-screen flex flex-col">
             <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-                    <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+                    <h1 className="mb-8 text-3xl text-center">{getMessage(languageVersion, "signUp", LABELS)}</h1>
                     <form onSubmit={formik.handleSubmit}>
                         <div>
-                            <label htmlFor="firstName">First Name</label>
+                            <label htmlFor="firstName">{getMessage(languageVersion, "firstName", LABELS)}</label>
                             <input
                                 id="firstName"
                                 type="text"
                                 className="block border border-grey-light w-full p-3 rounded mb-4"
                                 {...formik.getFieldProps('firstName')}
-                                placeholder="First Name"
+                                placeholder={getMessage(languageVersion, "firstName", LABELS)}
                             />
                             {formik.touched.firstName && formik.errors.firstName ? (
                                 <div>{formik.errors.firstName}</div>
                             ) : null}
                         </div>
                         <div>
-                            <label htmlFor="lastName">Last Name</label>
+                            <label htmlFor="lastName">{getMessage(languageVersion, "lastName", LABELS)}</label>
                             <input id="lastName"
                                    type="text"
                                    className="block border border-grey-light w-full p-3 rounded mb-4"
                                    {...formik.getFieldProps('lastName')}
-                                   placeholder="Last Name"/>
+                                   placeholder={getMessage(languageVersion, "lastName", LABELS)}/>
                             {formik.touched.lastName && formik.errors.lastName ? (
                                 <div>{formik.errors.lastName}</div>
                             ) : null}
                         </div>
                         <div>
-                            <label htmlFor="email">Email Address</label>
+                            <label htmlFor="email">{getMessage(languageVersion, "email", LABELS)}</label>
                             <input id="email"
                                    type="email"
                                    className="block border border-grey-light w-full p-3 rounded mb-4"
                                    {...formik.getFieldProps('email')}
-                                   placeholder="Email"/>
+                                   placeholder={getMessage(languageVersion, "email", LABELS)}/>
                             {formik.touched.email && formik.errors.email ? (
                                 <div>{formik.errors.email}</div>
                             ) : null}
                         </div>
                         <div>
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">{getMessage(languageVersion, "password", LABELS)}</label>
                             <input id="password"
                                    type="password"
                                    className="block border border-grey-light w-full p-3 rounded mb-4"
                                    {...formik.getFieldProps('password')}
-                                   placeholder="Password"/>
+                                   placeholder={getMessage(languageVersion, "password", LABELS)}/>
                             {formik.touched.password && formik.errors.password ? (
                                 <div>{formik.errors.password}</div>
                             ) : null}
                         </div>
                         <div>
-                            <label htmlFor="passwordConfirmation">Confirm password</label>
+                            <label htmlFor="passwordConfirmation">{getMessage(languageVersion, "confirmPassword", LABELS)}</label>
                             <input id="passwordConfirmation"
                                    type="password"
                                    className="block border border-grey-light w-full p-3 rounded mb-4"
                                    {...formik.getFieldProps('passwordConfirmation')}
-                                   placeholder="Confirm Password"/>
+                                   placeholder={getMessage(languageVersion, "confirmPassword", LABELS)}/>
                             {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation ? (
                                 <div>{formik.errors.passwordConfirmation}</div>
                             ) : null}
@@ -96,17 +97,17 @@ export const SignupForm = () => {
 
                         <button type="submit"
                                 className="w-full text-center py-3 rounded bg-violet-600 text-white hover:bg-violet-800 focus:outline-none my-1">
-                            Submit
+                            {getMessage(languageVersion, "signUp", LABELS)}
                         </button>
                     </form>
 
                     <div className="text-center text-sm text-grey-dark mt-4">
-                        By signing up, you agree to the
+                        {getMessage(languageVersion, "agreement", LABELS)}
                         <a className="no-underline border-b border-grey-dark text-grey-dark" href="#">
-                            Terms of Service
-                        </a> and
+                            {getMessage(languageVersion, "termsOfService", LABELS)}
+                        </a>,
                         <a className="no-underline border-b border-grey-dark text-grey-dark" href="#">
-                            Privacy Policy
+                            {getMessage(languageVersion, "privacyPolicy", LABELS)}
                         </a>
                     </div>
 
@@ -122,3 +123,124 @@ export const SignupForm = () => {
         </div>
     );
 };
+
+const LABELS = [
+    {
+        "name" : "firstName",
+        "values": [
+            {
+                "language" : "english",
+                "value": "First name"
+            },
+            {
+                "language" : "polish",
+                "value": "Imię"
+            }
+        ]
+    },
+    {
+        "name" : "lastName",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Last name"
+            },
+            {
+                "language" : "polish",
+                "value": "Nazwisko"
+            }
+        ]
+    },
+    {
+        "name" : "email",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Email Address"
+            },
+            {
+                "language" : "polish",
+                "value": "Adres email"
+            }
+        ]
+    },
+    {
+        "name" : "password",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Password"
+            },
+            {
+                "language" : "polish",
+                "value": "Hasło"
+            }
+        ]
+    },
+    {
+        "name" : "confirmPassword",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Confirm password"
+            },
+            {
+                "language" : "polish",
+                "value": "Potwierdź hasło"
+            }
+        ]
+    },
+    {
+        "name" : "signUp",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Sign up"
+            },
+            {
+                "language" : "polish",
+                "value": "Zarejestruj się"
+            }
+        ]
+    },
+    {
+        "name" : "agreement",
+        "values": [
+            {
+                "language" : "english",
+                "value": "By signing up, you agree to the"
+            },
+            {
+                "language" : "polish",
+                "value": "Rejestrując się zgadzasz się z"
+            }
+        ]
+    },
+    {
+        "name" : "termsOfService",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Terms of Service"
+            },
+            {
+                "language" : "polish",
+                "value": "Regulaminem"
+            }
+        ]
+    },
+    {
+        "name" : "privacyPolicy",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Privacy Policy"
+            },
+            {
+                "language" : "polish",
+                "value": "Polityką prywatności"
+            }
+        ]
+    }
+
+]

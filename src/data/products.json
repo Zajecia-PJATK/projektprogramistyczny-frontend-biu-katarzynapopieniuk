@@ -1,0 +1,62 @@
+[
+  {
+    "id": "0175d1f0-a8c6-41bf-8d02-df5734d829a4",
+    "name": [
+      {
+        "language" : "english",
+        "value": "black dress"
+      },
+      {
+        "language" : "polish",
+        "value": "czarna sukienka"
+      }
+    ],
+    "image": "https://img01.ztat.net/article/spp-media-p1/8ae6aad139e54d848f8cac4df2b9430c/ffeb029abc1046168d276cd89656ee7d.jpg",
+    "ratings": [5,4,5,4,5],
+    "options": [
+      {
+        "option": "S",
+        "quantity": 5
+      },
+      {
+        "option": "M",
+        "quantity": 8
+      },
+      {
+        "option": "L",
+        "quantity": 1
+      }
+    ],
+    "category": [
+      {
+        "language" : "english",
+        "value": "dress"
+      },
+      {
+        "language" : "polish",
+        "value": "sukienka"
+      }
+    ],
+    "color": [
+      {
+        "language" : "english",
+        "value": "black"
+      },
+      {
+        "language" : "polish",
+        "value": "czarny"
+      }
+    ],
+    "price": 200,
+    "description": [
+      {
+        "language" : "english",
+        "value": "Black evening dress"
+      },
+      {
+        "language" : "polish",
+        "value": "Czarna sukienka wieczorowa"
+      }
+    ]
+  }
+]

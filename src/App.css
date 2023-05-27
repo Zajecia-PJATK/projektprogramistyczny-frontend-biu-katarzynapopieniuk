@@ -39,7 +39,7 @@
 
 .navigation {
   width: 100%;
-  height: 80px;
+  height: 100px;
   background-color: rgb(70, 60, 110);
   display: flex;
   justify-content: flex-end;

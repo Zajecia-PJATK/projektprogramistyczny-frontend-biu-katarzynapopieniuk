@@ -1,6 +1,6 @@
 import getMessage from "../common/LanguageVersionMessageFinder";
 
-export default function Product({product, languageVersion}) {
+export default function Product({product, languageVersion, onAddProduct}) {
     return <div className="flex font-sans w-1/2">
         <div className="flex-none w-56 relative">
             <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover rounded-lg"
@@ -23,7 +23,7 @@ export default function Product({product, languageVersion}) {
             <div className="flex space-x-4 mb-5 text-sm font-medium">
                 <div className="flex-auto flex space-x-4">
                     <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
-                            type="button">
+                            type="button" onClick={() => onAddProduct(product.id, "a")}>
                         {getAddToBagMessage(languageVersion)}
                     </button>
                 </div>
@@ -42,10 +42,10 @@ export default function Product({product, languageVersion}) {
         </form>
     </div>
 }
+
 function getProductName(product, languageVersion) {
     return product.name.filter(name => name.language==languageVersion).map(name => name.value)[0];
 }
-
 function getProductDescription(product, languageVersion) {
     return product.description.filter(name => name.language==languageVersion).map(name => name.value)[0];
 }
@@ -65,15 +65,16 @@ const MESSAGES = [
         ]
     }
 ]
+
 function getAddToBagMessage(languageVersion) {
     return getMessage(languageVersion, "addToBag", MESSAGES);
 }
-
 function getOptions(options) {
     return options.filter(option => option.quantity > 0)
         .map(option => option.option)
         .map(option => getOption(option));
 }
+
 function getOption(option) {
     return <label>
         <input className="sr-only peer" name="size" type="radio" value={option}/>
@@ -83,3 +84,4 @@ function getOption(option) {
         </div>
     </label>
 }
+

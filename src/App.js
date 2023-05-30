@@ -10,20 +10,22 @@ import SignUpPage from "./pages/SignUpPage";
 import productsData from "./data/products.json";
 import getMessage from "./common/LanguageVersionMessageFinder";
 import LanguageVersionPicker from "./components/LanguageVersionPicker";
+import accountsData from "./data/userAccounts.json";
 
 function App() {
   const [products, setProducts] = useState(productsData);
   const [languageVersion, setLanguageVersion] = useState("polish");
   const [cart, setCart] = useState([]);
+  const [accounts, setAccounts] = useState(accountsData);
 
-    function addProduct(productId, option) {
+    function addProduct(productId) {
         var productsWithMatchingId = cart.filter(product => product.id === productId);
         var newCart;
 
         if(productsWithMatchingId.length > 0) {
             newCart = cart.map( product => product.id === productId ? updateProduct(product) : product);
         } else {
-            newCart = [...cart, {id: productId, quantity: 1, option:option}];
+            newCart = [...cart, {id: productId, quantity: 1}];
         }
 
         setCart(newCart);
@@ -42,8 +44,8 @@ function App() {
         <Routes>
             <Route path="/" element={<HomePage/>}/>
             <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products}/>}/>
-            <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id, option) => addProduct(id, option)}/>}/>
-            <Route path="/signup" element={<SignUpPage languageVersion={languageVersion}/>}/>
+            <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)}/>}/>
+            <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
     </div>

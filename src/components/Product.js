@@ -16,9 +16,7 @@ export default function Product({product, languageVersion, onAddProduct}) {
                 </div>
             </div>
             <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
-                <div className="space-x-2 flex text-sm font-bold">
-                    {getOptions(product.options)}
-                </div>
+
             </div>
             <div className="flex space-x-4 mb-5 text-sm font-medium">
                 <div className="flex-auto flex space-x-4">

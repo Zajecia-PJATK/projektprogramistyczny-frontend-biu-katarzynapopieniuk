@@ -2,8 +2,9 @@ import React from 'react';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import getMessage from "../common/LanguageVersionMessageFinder";
+import {SHA256} from "crypto-js";
 
-export default function SignupForm({languageVersion}) {
+export default function SignupForm({languageVersion, accounts, setAccounts = f => f}) {
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -28,7 +29,8 @@ export default function SignupForm({languageVersion}) {
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
         }),
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            var message = addAccount(values, accounts, setAccounts);
+            alert(JSON.stringify(message, null, 2));
         },
     });
     return (
@@ -123,6 +125,24 @@ export default function SignupForm({languageVersion}) {
         </div>
     );
 };
+
+function addAccount(data, accounts, setAccounts) {
+    var existingAccount = accounts.filter(account => account.email === data.email);
+    if(existingAccount.length > 0) {
+        return "Account already exists!";
+    }
+
+    var hashedPassword = SHA256(data.password).toString();
+    var newAccount = {
+        "firstName": data.firstName,
+        "lastName": data.lastName,
+        "email": data.email,
+        "password": hashedPassword
+    }
+
+    setAccounts([...accounts, newAccount]);
+    return "Account created successfully";
+}
 
 const LABELS = [
     {

@@ -11,12 +11,14 @@ import productsData from "./data/products.json";
 import getMessage from "./common/LanguageVersionMessageFinder";
 import LanguageVersionPicker from "./components/LanguageVersionPicker";
 import accountsData from "./data/userAccounts.json";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [products, setProducts] = useState(productsData);
   const [languageVersion, setLanguageVersion] = useState("polish");
   const [cart, setCart] = useState([]);
   const [accounts, setAccounts] = useState(accountsData);
+  const [loggedUserEmail, setLoggedUserEmail] = useState("");
 
     function addProduct(productId) {
         var productsWithMatchingId = cart.filter(product => product.id === productId);
@@ -37,7 +39,7 @@ function App() {
             <ul>
                 <li><Link to="/">{getMessage(languageVersion, "home", PAGE_NAMES)}</Link></li>
                 <li><Link to="/cart">{getMessage(languageVersion, "cart", PAGE_NAMES)}<FaShoppingCart size="30"/>{getProductsAmount(cart)}</Link></li>
-                <li><Link to="/signup">{getMessage(languageVersion, "signup", PAGE_NAMES)}</Link></li>
+                {getLinksDependingOnIfUserIsLogged(languageVersion, loggedUserEmail, setLoggedUserEmail)}
                 <li><LanguageVersionPicker onPickedLanguage={(language) => {setLanguageVersion(language)}}/></li>
             </ul>
         </nav>
@@ -46,6 +48,7 @@ function App() {
             <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products}/>}/>
             <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)}/>}/>
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
+            <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
     </div>
@@ -93,6 +96,32 @@ const PAGE_NAMES = [
                 "value": "Zarejestruj się"
             }
         ]
+    },
+    {
+        "name" : "login",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Log in"
+            },
+            {
+                "language" : "polish",
+                "value": "Zaloguj się"
+            }
+        ]
+    },
+    {
+        "name" : "logout",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Log out"
+            },
+            {
+                "language" : "polish",
+                "value": "Wyloguj się"
+            }
+        ]
     }
 ]
 
@@ -104,4 +133,21 @@ function updateProduct(product) {
 
 function getProductsAmount(cart) {
     return cart.reduce((acc, curr) => acc + curr.quantity, 0);
+}
+
+function getLinksDependingOnIfUserIsLogged(languageVersion, loggedUserEmail, setLoggedUserEmail) {
+    if(loggedUserEmail === "") {
+        return <>
+            <li><Link to="/signup">{getMessage(languageVersion, "signup", PAGE_NAMES)}</Link></li>
+            <li><Link to="/login">{getMessage(languageVersion, "login", PAGE_NAMES)}</Link></li>
+        </>
+    }
+
+    return <li>{getLogoutButton(getMessage(languageVersion, "logout", PAGE_NAMES), () => setLoggedUserEmail(""))}</li>
+}
+function getLogoutButton(name, onLogoutButton =  f => f) {
+    return <button onClick={() => onLogoutButton()}
+                   className="block text-white w-20 text-2xl m-2 cursor-pointer">
+        {name}
+    </button>
 }

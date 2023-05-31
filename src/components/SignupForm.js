@@ -116,9 +116,9 @@ export default function SignupForm({languageVersion, accounts, setAccounts = f =
                 </div>
 
                 <div className="text-grey-dark mt-6">
-                    Already have an account?
+                    {getMessage(languageVersion, "alreadyHaveAccount", LABELS)}
                     <a className="no-underline border-b border-blue text-blue" href="../login/">
-                        Log in
+                        {getMessage(languageVersion, "logIn", LABELS)}
                     </a>.
                 </div>
             </div>
@@ -259,6 +259,32 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Polityką prywatności"
+            }
+        ]
+    },
+    {
+        "name" : "alreadyHaveAccount",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Already have an account? "
+            },
+            {
+                "language" : "polish",
+                "value": "Masz już konto? "
+            }
+        ]
+    },
+    {
+        "name" : "logIn",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Log in"
+            },
+            {
+                "language" : "polish",
+                "value": "Zaloguj się"
             }
         ]
     }

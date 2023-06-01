@@ -1,8 +1,7 @@
 import Cart from "../components/Cart";
 
-export default function CartPage({cart=[], setCart = f => f, products = []}) {
+export default function CartPage({cart=[], setCart = f => f, products = [], languageVersion}) {
     return <>
-        <div>Cart</div>
-        <Cart cart={cart} setCart={setCart} products={products}/>
+        <Cart cart={cart} setCart={setCart} products={products} languageVersion={languageVersion}/>
     </>
 }

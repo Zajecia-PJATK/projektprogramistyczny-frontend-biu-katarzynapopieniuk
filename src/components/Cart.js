@@ -1,15 +1,17 @@
-export default function Cart({cart = [], setCart = f => f, products = []}) {
+import CartProduct from "./CartProduct";
+
+export default function Cart({cart = [], setCart = f => f, products = [], languageVersion}) {
     return <>
-        {getCartProducts(cart, setCart, products)}
+        {getCartProducts(cart, setCart, products, languageVersion)}
     </>
 }
 
-function getCartProducts(cart, setCart, products) {
-    return cart.map(simpleProduct => getProduct(simpleProduct, products))
+function getCartProducts(cart, setCart, products, languageVersion) {
+    return cart.map(simpleProduct => getProduct(simpleProduct, products, languageVersion))
         .filter(simpleProduct => simpleProduct != null);
 }
 
-function getProduct(simpleProduct, products) {
+function getProduct(simpleProduct, products, languageVersion) {
 
     var foundProducts = products.filter(product => product.id === simpleProduct.id);
     if(foundProducts.length == 0) {
@@ -17,5 +19,5 @@ function getProduct(simpleProduct, products) {
     }
 
     var product = foundProducts[0];
-    return <div>Product: id: {product.id}, quantity: {simpleProduct.quantity}</div>
+    return <CartProduct product={product} quantity={simpleProduct.quantity} languageVersion={languageVersion}/>
 }

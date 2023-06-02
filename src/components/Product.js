@@ -1,9 +1,12 @@
 import getMessage from "../common/LanguageVersionMessageFinder";
+import StarRating from "./rating/StarRating";
+import getAverageRating from "./rating/AverageRatingCalculator";
 
-export default function Product({product, languageVersion, onAddProduct}) {
+export default function Product({product, languageVersion, onAddProduct, onRate = f => f}) {
     return <div className="flex font-sans w-1/2">
         <div className="flex-none w-56 relative">
-            <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover rounded-lg"
+            <img src={product.image} alt={product.name}
+                 className="absolute inset-0 w-full h-full object-cover rounded-lg"
                  loading="lazy"/>
         </div>
         <form className="flex-auto p-6">
@@ -37,6 +40,12 @@ export default function Product({product, languageVersion, onAddProduct}) {
             <div className="flex-auto font-medium text-slate-900">
                 {getProductDescription(product, languageVersion)}
             </div>
+            <div className="flex-auto flex space-x-4 ml-2">
+                {getStarRating(product, onRate)}
+            </div>
+            <div className="flex-auto flex space-x-4 ml-2">
+                {getMessage(languageVersion, "averageRating", MESSAGES)} {getAverageRating(product)}
+            </div>
         </form>
     </div>
 }
@@ -44,10 +53,10 @@ export default function Product({product, languageVersion, onAddProduct}) {
 function getProductName(product, languageVersion) {
     return product.name.filter(name => name.language==languageVersion).map(name => name.value)[0];
 }
+
 function getProductDescription(product, languageVersion) {
     return product.description.filter(name => name.language==languageVersion).map(name => name.value)[0];
 }
-
 const MESSAGES = [
     {
         "name" : "addToBag",
@@ -61,18 +70,31 @@ const MESSAGES = [
                 "value": "Dodaj do koszyka"
             }
         ]
+    },
+    {
+        "name" : "averageRating",
+        "values": [
+            {
+                "language" : "english",
+                "value": "average rating: "
+            },
+            {
+                "language" : "polish",
+                "value": "średnia ocena: "
+            }
+        ]
     }
 ]
 
 function getAddToBagMessage(languageVersion) {
     return getMessage(languageVersion, "addToBag", MESSAGES);
 }
+
 function getOptions(options) {
     return options.filter(option => option.quantity > 0)
         .map(option => option.option)
         .map(option => getOption(option));
 }
-
 function getOption(option) {
     return <label>
         <input className="sr-only peer" name="size" type="radio" value={option}/>
@@ -83,3 +105,8 @@ function getOption(option) {
     </label>
 }
 
+
+function getStarRating(product, onRate) {
+    var rating = product.rating;
+    return <StarRating selectedStars={rating} onRate={rating => onRate(product.id, rating)}/>;
+}

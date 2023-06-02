@@ -46,7 +46,7 @@ function App() {
         <Routes>
             <Route path="/" element={<HomePage/>}/>
             <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products} languageVersion={languageVersion}/>}/>
-            <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)}/>}/>
+            <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)}/>}/>
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
             <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
@@ -150,4 +150,15 @@ function getLogoutButton(name, onLogoutButton =  f => f) {
                    className="block text-white w-20 text-2xl m-2 cursor-pointer">
         {name}
     </button>
+}
+
+function onRateProduct(id, rating, products, setProducts) {
+    const newProducts = products.map(product => product.id === id ? {...product, rating} : product)
+        .map(product => product.id === id ? updatePhotoRatings(product, rating) : product);
+    setProducts(newProducts)
+}
+
+function updatePhotoRatings(product, rating) {
+    product.rating = rating;
+    return product;
 }

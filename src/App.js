@@ -44,7 +44,7 @@ function App() {
             </ul>
         </nav>
         <Routes>
-            <Route path="/" element={<HomePage/>}/>
+            <Route path="/" element={<HomePage products={products} languageVersion={languageVersion}/>}/>
             <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products} languageVersion={languageVersion}/>}/>
             <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)}/>}/>
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>

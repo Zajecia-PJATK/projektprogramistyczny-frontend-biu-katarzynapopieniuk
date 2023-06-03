@@ -46,5 +46,53 @@
         "value": "Czarna sukienka wieczorowa"
       }
     ]
+  },
+  {
+    "id": "faa32252-01ec-11ee-be56-0242ac120002",
+    "name": [
+      {
+        "language" : "english",
+        "value": "pikachu pajama"
+      },
+      {
+        "language" : "polish",
+        "value": "piżama pikachu"
+      }
+    ],
+    "image": "https://ae01.alicdn.com/kf/S669cb687a4334fb7be1389995ed8a0c94.jpg",
+    "ratings": [2,4,5,4,5],
+    "rating": 0,
+    "quantity": 5,
+    "category": [
+      {
+        "language" : "english",
+        "value": "pajamas"
+      },
+      {
+        "language" : "polish",
+        "value": "piżama"
+      }
+    ],
+    "color": [
+      {
+        "language" : "english",
+        "value": "yellow"
+      },
+      {
+        "language" : "polish",
+        "value": "żółty"
+      }
+    ],
+    "price": 80,
+    "description": [
+      {
+        "language" : "english",
+        "value": "Pikachu Cartoon Onesies Women Pajamas Sleepwear"
+      },
+      {
+        "language" : "polish",
+        "value": "Piżama pikachu dla fanów pokemonów"
+      }
+    ]
   }
 ]

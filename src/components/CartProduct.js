@@ -18,26 +18,13 @@ export default function CartProduct({product, quantity, languageVersion, onRemov
                         <dd className="text-sm">{getAverageRating(product)}</dd>
                     </div>
                     <div className="ml-2">
-                        <dt className="sr-only">Year</dt>
-                        <dd>{quantity}</dd>
+                        {quantity}
                     </div>
-                    <div>
-                        <dt className="sr-only">Genre</dt>
-                        <dd className="flex items-center">
-                            <svg width="2" height="2" fill="currentColor" className="mx-2 text-slate-300" aria-hidden="true">
-                                <circle cx="1" cy="1" r="1" />
-                            </svg>
-                            {product.price} zł
-                        </dd>
+                    <div className="pl-5">
+                        {product.price} zł
                     </div>
-                    <div>
-                        <dt className="sr-only">Runtime</dt>
-                        <dd className="flex items-center">
-                            <svg width="2" height="2" fill="currentColor" className="mx-2 text-slate-300" aria-hidden="true">
-                                <circle cx="1" cy="1" r="1" />
-                            </svg>
-                            {quantity * product.price} zł
-                        </dd>
+                    <div className="pl-5">
+                        {quantity * product.price} zł
                     </div>
                     <div className="ml-5">
                         <button onClick = {() => onRemove(product.id)}>
@@ -45,6 +32,7 @@ export default function CartProduct({product, quantity, languageVersion, onRemov
                         </button>
                     </div>
                 </dl>
+                <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
             </div>
         </article>
 }

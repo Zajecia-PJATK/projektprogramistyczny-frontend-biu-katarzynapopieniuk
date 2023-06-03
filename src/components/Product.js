@@ -17,28 +17,31 @@ export default function Product({product, languageVersion, onAddProduct, onRate 
                 <div className="w-full flex-none mt-2 order-1 text-3xl font-bold text-violet-600">
                     {product.price}zł
                 </div>
-            </div>
-            <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
 
             </div>
-            <div className="flex space-x-4 mb-5 text-sm font-medium">
+            <div className="flex space-x-4 mb-5 text-sm font-medium ml-5">
                 <div className="flex-auto flex space-x-4">
                     <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
                             type="button" onClick={() => onAddProduct(product.id, "a")}>
                         {getAddToBagMessage(languageVersion)}
                     </button>
                 </div>
-                <button
-                    className="flex-none flex items-center justify-center w-9 h-9 rounded-full text-violet-600 bg-violet-50"
-                    type="button" aria-label="Like">
-                    <svg width="20" height="20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                              d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
-                    </svg>
-                </button>
             </div>
+
+            <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
+
+            </div>
+
             <div className="flex-auto font-medium text-slate-900">
                 {getProductDescription(product, languageVersion)}
+            </div>
+            <div className="flex-auto font-medium text-slate-900 text-sm">
+                {getMessage(languageVersion, "category", MESSAGES)}
+                {getProductCategory(product, languageVersion)}
+            </div>
+            <div className="flex-auto font-medium text-slate-900 text-sm">
+                {getMessage(languageVersion, "color", MESSAGES)}
+                {getProductColor(product, languageVersion)}
             </div>
             <div className="flex-auto flex space-x-4 ml-2">
                 {getStarRating(product, onRate)}
@@ -56,6 +59,14 @@ function getProductName(product, languageVersion) {
 
 function getProductDescription(product, languageVersion) {
     return product.description.filter(name => name.language==languageVersion).map(name => name.value)[0];
+}
+
+function getProductColor(product, languageVersion) {
+    return product.color.filter(name => name.language==languageVersion).map(name => name.value)[0];
+}
+
+function getProductCategory(product, languageVersion) {
+    return product.category.filter(name => name.language==languageVersion).map(name => name.value)[0];
 }
 const MESSAGES = [
     {
@@ -83,28 +94,38 @@ const MESSAGES = [
                 "value": "średnia ocena: "
             }
         ]
+    },
+    {
+        "name" : "color",
+        "values": [
+            {
+                "language" : "english",
+                "value": "color: "
+            },
+            {
+                "language" : "polish",
+                "value": "kolor: "
+            }
+        ]
+    },
+    {
+        "name" : "category",
+        "values": [
+            {
+                "language" : "english",
+                "value": "category: "
+            },
+            {
+                "language" : "polish",
+                "value": "kategoria: "
+            }
+        ]
     }
 ]
 
 function getAddToBagMessage(languageVersion) {
     return getMessage(languageVersion, "addToBag", MESSAGES);
 }
-
-function getOptions(options) {
-    return options.filter(option => option.quantity > 0)
-        .map(option => option.option)
-        .map(option => getOption(option));
-}
-function getOption(option) {
-    return <label>
-        <input className="sr-only peer" name="size" type="radio" value={option}/>
-        <div
-            className="w-9 h-9 rounded-full flex items-center justify-center text-violet-400 peer-checked:bg-violet-600 peer-checked:text-white">
-            {option}
-        </div>
-    </label>
-}
-
 
 function getStarRating(product, onRate) {
     var rating = product.rating;

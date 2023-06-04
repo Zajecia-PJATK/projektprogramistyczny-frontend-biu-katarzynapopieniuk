@@ -7,7 +7,7 @@ export default function ProductPage({products, languageVersion, onAddProduct, on
     if(product.length == 0) {
         return <div>Product not found</div>
     }
-    return <div>
+    return <div className="p-4 sm:ml-64">
         <Product product={product[0]} languageVersion={languageVersion} onAddProduct={onAddProduct} onRate={onRate}/>
     </div>
 }

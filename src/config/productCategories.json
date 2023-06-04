@@ -1,0 +1,28 @@
+[
+  {
+    "name": "dress",
+    "displayName": [
+      {
+        "language" : "english",
+        "value": "dress"
+      },
+      {
+        "language" : "polish",
+        "value": "sukienki"
+      }
+    ]
+  },
+  {
+    "name": "pajamas",
+    "displayName": [
+      {
+        "language" : "english",
+        "value": "pijama"
+      },
+      {
+        "language" : "polish",
+        "value": "piżamy"
+      }
+    ]
+  }
+]

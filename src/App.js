@@ -12,6 +12,8 @@ import getMessage from "./common/LanguageVersionMessageFinder";
 import LanguageVersionPicker from "./components/LanguageVersionPicker";
 import accountsData from "./data/userAccounts.json";
 import LoginPage from "./pages/LoginPage";
+import SideBar from "./components/SideBar";
+import CategoryPage from "./pages/CategoryPage";
 
 function App() {
   const [products, setProducts] = useState(productsData);
@@ -49,8 +51,10 @@ function App() {
             <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)}/>}/>
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
             <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
+            <Route path="/category/:category" element={<CategoryPage products={products} languageVersion={languageVersion}/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
+        <SideBar languageVersion={languageVersion}/>
     </div>
   );
 }
@@ -67,7 +71,7 @@ const PAGE_NAMES = [
             },
             {
                 "language" : "polish",
-                "value": "Strona glówna"
+                "value": "Strona główna"
             }
         ]
     },

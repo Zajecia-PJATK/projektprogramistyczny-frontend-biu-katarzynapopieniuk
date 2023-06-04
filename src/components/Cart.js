@@ -1,10 +1,18 @@
 import CartProduct from "./CartProduct";
 import getMessage from "../common/LanguageVersionMessageFinder";
+import {useMemo, useState} from "react";
 
 export default function Cart({cart = [], setCart = f => f, products = [], languageVersion}) {
+    const [total, setTotal] = useState();
+    useMemo(() => {
+        setTotal(
+            getCartTotalPrice(cart, products)
+        );
+    }, [cart]);
+
     return <>
         {getCartProducts(cart, setCart, products, languageVersion)}
-        {getCartTotal(cart, products, languageVersion)}
+        {getCartTotal(total, languageVersion)}
     </>
 }
 
@@ -35,10 +43,10 @@ function getProduct(simpleProduct, products) {
     return foundProducts[0];
 }
 
-function getCartTotal(cart, products, languageVersion) {
+function getCartTotal(total, languageVersion) {
     return <div className="min-w-0 relative flex-auto text-violet-600 font-bold">
         {getMessage(languageVersion, "total", LABELS)}
-        {getCartTotalPrice(cart, products)}
+        {total}zł
     </div>
 }
 

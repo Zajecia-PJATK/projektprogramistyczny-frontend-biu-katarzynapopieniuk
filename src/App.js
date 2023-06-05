@@ -13,7 +13,7 @@ import LanguageVersionPicker from "./components/LanguageVersionPicker";
 import accountsData from "./data/userAccounts.json";
 import LoginPage from "./pages/LoginPage";
 import SideBar from "./components/SideBar";
-import CategoryPage from "./pages/CategoryPage";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   const [products, setProducts] = useState(productsData);
@@ -21,6 +21,7 @@ function App() {
   const [cart, setCart] = useState([]);
   const [accounts, setAccounts] = useState(accountsData);
   const [loggedUserEmail, setLoggedUserEmail] = useState("");
+  const [searchParams, setSearchParams] = useState({category: "", params: []});
 
     function addProduct(productId) {
         var productsWithMatchingId = cart.filter(product => product.id === productId);
@@ -46,15 +47,14 @@ function App() {
             </ul>
         </nav>
         <Routes>
-            <Route path="/" element={<HomePage products={products} languageVersion={languageVersion}/>}/>
+            <Route path="/" element={<HomePage products={products} languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}/>}/>
             <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products} languageVersion={languageVersion}/>}/>
             <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)}/>}/>
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
             <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
-            <Route path="/category/:category" element={<CategoryPage products={products} languageVersion={languageVersion}/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
-        <SideBar languageVersion={languageVersion}/>
+        <SideBar languageVersion={languageVersion} setSearchParams={setSearchParams}/>
     </div>
   );
 }

@@ -43,7 +43,8 @@ const useInput = initialValue => {
 function updateSearchParams(line, searchParams, setSearchParams) {
     setSearchParams({
         category: searchParams.category,
-        params: line.split(" ")
+        params: line.split(" "),
+        colors: searchParams.colors
     })
 }
 

@@ -13,7 +13,7 @@ import LanguageVersionPicker from "./components/LanguageVersionPicker";
 import accountsData from "./data/userAccounts.json";
 import LoginPage from "./pages/LoginPage";
 import SideBar from "./components/SideBar";
-import SearchBar from "./components/SearchBar";
+import productColorsData from "./config/productColors.json";
 
 function App() {
   const [products, setProducts] = useState(productsData);
@@ -21,7 +21,8 @@ function App() {
   const [cart, setCart] = useState([]);
   const [accounts, setAccounts] = useState(accountsData);
   const [loggedUserEmail, setLoggedUserEmail] = useState("");
-  const [searchParams, setSearchParams] = useState({category: "", params: []});
+  const [searchParams, setSearchParams] = useState({category: "", params: [], colors: []});
+  const [productColors, setProductColors] = useState(productColorsData);
 
     function addProduct(productId) {
         var productsWithMatchingId = cart.filter(product => product.id === productId);
@@ -54,7 +55,7 @@ function App() {
             <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
-        <SideBar languageVersion={languageVersion} setSearchParams={setSearchParams}/>
+        <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams} productColors={productColors}/>
     </div>
   );
 }

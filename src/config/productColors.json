@@ -1,0 +1,80 @@
+[
+  {
+    "name": "white",
+    "values": [
+      {
+        "language": "english",
+        "value": "white"
+      },
+      {
+        "language": "polish",
+        "value": "biały"
+      }
+    ]
+  },
+  {
+    "name": "black",
+    "values": [
+      {
+        "language": "english",
+        "value": "black"
+      },
+      {
+        "language": "polish",
+        "value": "czarny"
+      }
+    ]
+  },
+  {
+    "name": "yellow",
+    "values": [
+      {
+        "language": "english",
+        "value": "yellow"
+      },
+      {
+        "language": "polish",
+        "value": "żółty"
+      }
+    ]
+  },
+  {
+    "name": "red",
+    "values": [
+      {
+        "language": "english",
+        "value": "red"
+      },
+      {
+        "language": "polish",
+        "value": "czerwony"
+      }
+    ]
+  },
+  {
+    "name": "blue",
+    "values": [
+      {
+        "language": "english",
+        "value": "blue"
+      },
+      {
+        "language": "polish",
+        "value": "niebieski"
+      }
+    ]
+  },
+  {
+    "name": "green",
+    "values": [
+      {
+        "language": "english",
+        "value": "green"
+      },
+      {
+        "language": "polish",
+        "value": "zielony"
+      }
+    ]
+  }
+]

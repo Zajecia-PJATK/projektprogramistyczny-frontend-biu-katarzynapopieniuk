@@ -1,6 +1,5 @@
 import {useParams} from "react-router-dom";
 import Product from "../components/Product";
-import SearchBar from "../components/SearchBar";
 import React from "react";
 
 export default function ProductPage({products, languageVersion, onAddProduct, onRate = f => f}) {

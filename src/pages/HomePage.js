@@ -1,6 +1,7 @@
 import SimpleProduct from "../components/home/SimpleProduct";
 import SearchBar from "../components/SearchBar";
 import React from "react";
+import colors from "tailwindcss/colors";
 
 export default function HomePage({products, languageVersion, searchParams, setSearchParams}) {
     return <div>
@@ -14,7 +15,8 @@ export default function HomePage({products, languageVersion, searchParams, setSe
 
 function isNotFiltered(product, searchParams) {
     return isNotFilteredCategory(product, searchParams)
-        && isNotFilteredByParams(product, searchParams);
+        && isNotFilteredByParams(product, searchParams)
+        && isNotFilteredByColor(product, searchParams);
 }
 
 function isNotFilteredCategory(product, searchParams) {
@@ -41,4 +43,16 @@ function isNotFilteredByParams(product, searchParams) {
 function isMatchingProduct(product, param) {
     return product.name.filter(name => name.value.includes(param)).length > 0
         || product.description.filter(description => description.value.includes(param)).length > 0;
+}
+
+function isNotFilteredByColor(product, searchParams) {
+    if(searchParams.colors.length > 0) {
+        return searchParams.colors.filter(color => color === getProductColor(product)).length > 0;
+    }
+
+    return true;
+}
+
+function getProductColor(product) {
+    return product.color.filter(color => color.language==="english").map(color => color.value)[0];
 }

@@ -21,7 +21,7 @@ function App() {
   const [cart, setCart] = useState([]);
   const [accounts, setAccounts] = useState(accountsData);
   const [loggedUserEmail, setLoggedUserEmail] = useState("");
-  const [searchParams, setSearchParams] = useState({category: "", params: [], colors: []});
+  const [searchParams, setSearchParams] = useState({category: "", params: [], colors: [], price: {min: null, max: null}});
   const [productColors, setProductColors] = useState(productColorsData);
 
     function addProduct(productId) {

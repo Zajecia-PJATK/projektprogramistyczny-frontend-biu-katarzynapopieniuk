@@ -16,7 +16,8 @@ export default function HomePage({products, languageVersion, searchParams, setSe
 function isNotFiltered(product, searchParams) {
     return isNotFilteredCategory(product, searchParams)
         && isNotFilteredByParams(product, searchParams)
-        && isNotFilteredByColor(product, searchParams);
+        && isNotFilteredByColor(product, searchParams)
+        && isNotFilteredByPrice(product, searchParams);
 }
 
 function isNotFilteredCategory(product, searchParams) {
@@ -55,4 +56,25 @@ function isNotFilteredByColor(product, searchParams) {
 
 function getProductColor(product) {
     return product.color.filter(color => color.language==="english").map(color => color.value)[0];
+}
+
+function isNotFilteredByPrice(product, searchParams) {
+    return isNotFilteredByMinPrice(product, searchParams.price.min)
+        && isNotFilteredByMaxPrice(product, searchParams.price.max);
+}
+
+function isNotFilteredByMinPrice(product, minPrice) {
+    if(minPrice === null || isNaN(minPrice)) {
+        return true;
+    }
+
+    return product.price >= minPrice;
+}
+
+function isNotFilteredByMaxPrice(product, maxPrice) {
+    if(maxPrice === null || isNaN(maxPrice)) {
+        return true;
+    }
+
+    return product.price <= maxPrice;
 }

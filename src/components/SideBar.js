@@ -17,9 +17,9 @@ export default function SideBar({languageVersion, searchParams, setSearchParams,
         </div>
     </aside>
 }
-function getProductCategories(categories, languageVersion, setSearchParams) {
+function getProductCategories(categories, languageVersion, searchParams, setSearchParams) {
     return categories.map(category => getProductCategory(category, languageVersion))
-        .map(category => getCategoryListElement(category, setSearchParams));
+        .map(category => getCategoryListElement(category, searchParams, setSearchParams));
 }
 function getProductCategory(category, languageVersion) {
     return {

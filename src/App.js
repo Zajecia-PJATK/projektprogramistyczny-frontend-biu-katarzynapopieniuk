@@ -14,6 +14,7 @@ import accountsData from "./data/userAccounts.json";
 import LoginPage from "./pages/LoginPage";
 import SideBar from "./components/SideBar";
 import productColorsData from "./config/productColors.json";
+import getUserByEmail from "./common/UserDataRetriever";
 
 function App() {
   const [products, setProducts] = useState(productsData);
@@ -50,7 +51,7 @@ function App() {
         <Routes>
             <Route path="/" element={<HomePage products={products} languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}/>}/>
             <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products} languageVersion={languageVersion}/>}/>
-            <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)}/>}/>
+            <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)} user={getUserByEmail(loggedUserEmail, accounts)}/>}/>
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
             <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
             <Route path="*" element={<NotFoundPage/>}/>

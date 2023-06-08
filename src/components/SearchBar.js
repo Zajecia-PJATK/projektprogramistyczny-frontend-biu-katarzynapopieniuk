@@ -1,5 +1,6 @@
 import getMessage from "../common/LanguageVersionMessageFinder";
 import {useState} from "react";
+import {useInput} from "../common/InputUtils";
 
 export default function SearchBar({languageVersion, searchParams, setSearchParams}) {
 
@@ -31,14 +32,6 @@ export default function SearchBar({languageVersion, searchParams, setSearchParam
         </div>
     </form>
 }
-
-const useInput = initialValue => {
-    const [value, setValue] = useState(initialValue);
-    return [
-        {value, onChange: e => setValue(e.target.value)},
-        () => setValue(initialValue)
-    ];
-};
 
 function updateSearchParams(line, searchParams, setSearchParams) {
     setSearchParams({

@@ -3,7 +3,7 @@ import Product from "../components/Product";
 import React from "react";
 import CommentSection from "../components/CommentSection";
 
-export default function ProductPage({products, languageVersion, onAddProduct, onRate = f => f}) {
+export default function ProductPage({products, languageVersion, onAddProduct, onRate = f => f, user}) {
     const {id} = useParams();
     var product = products.filter(product => product.id === id);
     if (product.length == 0) {
@@ -13,7 +13,7 @@ export default function ProductPage({products, languageVersion, onAddProduct, on
         <div className="p-4 sm:ml-64">
             <Product product={product[0]} languageVersion={languageVersion} onAddProduct={onAddProduct}
                      onRate={onRate}/>
-            <CommentSection languageVersion={languageVersion}/>
+            <CommentSection languageVersion={languageVersion} user={user}/>
         </div>
     </>
 }

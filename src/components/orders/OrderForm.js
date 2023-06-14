@@ -3,6 +3,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import getMessage from "../../common/LanguageVersionMessageFinder";
 import CardPaymentForm from "./CardPaymentForm";
+import NotFoundPage from "../../pages/NotFoundPage";
 
 export default function OrderForm({languageVersion, cart=[], products = [], addOrder, loggedUserEmail}) {
     const [paymentMethod, setPaymentMethod] = useState("card");
@@ -41,6 +42,10 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
            // alert(JSON.stringify(message, null, 2));
         },
     });
+    if(loggedUserEmail === "") {
+        return <NotFoundPage languageVersion={languageVersion}/>
+    }
+
     return (
         <div className="bg-grey-lighter flex flex-col">
             <div className="container max-w-xl mx-auto flex-1 flex flex-col items-center justify-center px-2">

@@ -17,6 +17,8 @@ import productColorsData from "./config/productColors.json";
 import getUserByEmail from "./common/UserDataRetriever";
 import ordersData from "./data/orders.json";
 import CheckoutPage from "./pages/CheckoutPage";
+import MyOrdersPage from "./pages/MyOrdersPage";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   const [products, setProducts] = useState(productsData);
@@ -50,6 +52,7 @@ function App() {
         <nav className="navigation">
             <ul>
                 <li><Link to="/">{getMessage(languageVersion, "home", PAGE_NAMES)}</Link></li>
+                <li><Link to="/myorders" hidden={loggedUserEmail===""}>{getMessage(languageVersion, "orders", PAGE_NAMES)}</Link></li>
                 <li><Link to="/cart">{getMessage(languageVersion, "cart", PAGE_NAMES)}<FaShoppingCart size="30"/>{getProductsAmount(cart)}</Link></li>
                 {getLinksDependingOnIfUserIsLogged(languageVersion, loggedUserEmail, setLoggedUserEmail)}
                 <li><LanguageVersionPicker onPickedLanguage={(language) => {setLanguageVersion(language)}}/></li>
@@ -62,6 +65,8 @@ function App() {
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
             <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
             <Route path="/checkout" element={<CheckoutPage cart={cart} products={products} languageVersion={languageVersion} addOrder={addOrder} loggedUserEmail={loggedUserEmail}/>}/>
+            <Route path="/myorders" element={<MyOrdersPage languageVersion={languageVersion} orders={orders} loggedUserEmail={loggedUserEmail} products={products}/>}/>
+            <Route path="/myorders/:id" element={<OrderPage languageVersion={languageVersion} orders={orders} loggedUserEmail={loggedUserEmail} products={products}/>}/>
             <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
         </Routes>
         <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams} productColors={productColors}/>
@@ -134,6 +139,19 @@ const PAGE_NAMES = [
             {
                 "language" : "polish",
                 "value": "Wyloguj się"
+            }
+        ]
+    },
+    {
+        "name" : "orders",
+        "values": [
+            {
+                "language" : "english",
+                "value": "My orders"
+            },
+            {
+                "language" : "polish",
+                "value": "Moje zamówienia"
             }
         ]
     }

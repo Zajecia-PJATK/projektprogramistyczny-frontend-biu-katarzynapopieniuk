@@ -1,5 +1,6 @@
 [
   {
+    "id": "0285d1a4-a9c6-41bf-9d02-df5734c829a4",
     "userEmail": "jan.kowalski@gmail.com",
     "address": {
       "street": "Wezuwiusza 10/23",
@@ -16,6 +17,7 @@
       }
     ],
     "promoCodeId": null,
-    "totalPrice": 200
+    "totalPrice": 200,
+    "paymentMethod": "card"
   }
 ]

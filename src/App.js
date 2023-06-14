@@ -15,6 +15,8 @@ import LoginPage from "./pages/LoginPage";
 import SideBar from "./components/SideBar";
 import productColorsData from "./config/productColors.json";
 import getUserByEmail from "./common/UserDataRetriever";
+import ordersData from "./data/orders.json";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   const [products, setProducts] = useState(productsData);
@@ -24,6 +26,7 @@ function App() {
   const [loggedUserEmail, setLoggedUserEmail] = useState("");
   const [searchParams, setSearchParams] = useState({category: "", params: [], colors: [], price: {min: null, max: null}});
   const [productColors, setProductColors] = useState(productColorsData);
+  const [orders, setOrders] = useState(ordersData);
 
     function addProduct(productId) {
         var productsWithMatchingId = cart.filter(product => product.id === productId);
@@ -38,6 +41,10 @@ function App() {
         setCart(newCart);
     }
 
+    function addOrder(order) {
+        setOrders([...orders, order]);
+    }
+
   return (
     <div className="App">
         <nav className="navigation">
@@ -50,11 +57,12 @@ function App() {
         </nav>
         <Routes>
             <Route path="/" element={<HomePage products={products} languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}/>}/>
-            <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products} languageVersion={languageVersion}/>}/>
+            <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products} languageVersion={languageVersion} addOrder={addOrder} loggedUserEmail={loggedUserEmail}/>}/>
             <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)} user={getUserByEmail(loggedUserEmail, accounts)}/>}/>
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
             <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
-            <Route path="*" element={<NotFoundPage/>}/>
+            <Route path="/checkout" element={<CheckoutPage cart={cart} products={products} languageVersion={languageVersion} addOrder={addOrder} loggedUserEmail={loggedUserEmail}/>}/>
+            <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
         </Routes>
         <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams} productColors={productColors}/>
     </div>

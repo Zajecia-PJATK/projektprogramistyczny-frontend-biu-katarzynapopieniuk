@@ -10,9 +10,9 @@ export default function LoginForm({languageVersion, accounts, setLoggetUserEmail
             email: '',
         },
         validationSchema: Yup.object({
-            email: Yup.string().email('Invalid email address').required('Required'),
+            email: Yup.string().email('Invalid email address').required(getMessage(languageVersion, "required", LABELS)),
             password: Yup.string()
-                .required('Password is required')
+                .required(getMessage(languageVersion, "required", LABELS))
         }),
         onSubmit: values => {
             alert(JSON.stringify(tryToLogIn(values, accounts, setLoggetUserEmail, languageVersion), null, 2));
@@ -119,45 +119,6 @@ const LABELS = [
         ]
     },
     {
-        "name" : "agreement",
-        "values": [
-            {
-                "language" : "english",
-                "value": "By signing up, you agree to the"
-            },
-            {
-                "language" : "polish",
-                "value": "Rejestrując się zgadzasz się z"
-            }
-        ]
-    },
-    {
-        "name" : "termsOfService",
-        "values": [
-            {
-                "language" : "english",
-                "value": "Terms of Service"
-            },
-            {
-                "language" : "polish",
-                "value": "Regulaminem"
-            }
-        ]
-    },
-    {
-        "name" : "privacyPolicy",
-        "values": [
-            {
-                "language" : "english",
-                "value": "Privacy Policy"
-            },
-            {
-                "language" : "polish",
-                "value": "Polityką prywatności"
-            }
-        ]
-    },
-    {
         "name" : "noAccountYet",
         "values": [
             {
@@ -206,6 +167,19 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Witaj!"
+            }
+        ]
+    },
+    {
+        "name" : "required",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Required"
+            },
+            {
+                "language" : "polish",
+                "value": "Pole wymagane"
             }
         ]
     }

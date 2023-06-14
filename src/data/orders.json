@@ -1,0 +1,21 @@
+[
+  {
+    "userEmail": "jan.kowalski@gmail.com",
+    "address": {
+      "street": "Wezuwiusza 10/23",
+      "city": "Katowice",
+      "country": "Polska",
+      "postcode": "00-007"
+    },
+    "products": [
+      {
+        "id": "0175d1f0-a8c6-41bf-8d02-df5734d829a4",
+        "quantity": 1,
+        "price": 200,
+        "usedCouponId": null
+      }
+    ],
+    "promoCodeId": null,
+    "totalPrice": 200
+  }
+]

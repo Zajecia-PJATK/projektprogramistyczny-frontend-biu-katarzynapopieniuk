@@ -40,19 +40,3 @@ export default function CartProduct({product, quantity, languageVersion, onRemov
 function getProductName(product, languageVersion) {
     return product.name.filter(name => name.language==languageVersion).map(name => name.value)[0];
 }
-
-const MESSAGES = [
-    {
-        "name" : "quantity",
-        "values": [
-            {
-                "language" : "english",
-                "value": "Add to bag"
-            },
-            {
-                "language" : "polish",
-                "value": "Dodaj do koszyka"
-            }
-        ]
-    }
-]

@@ -1,5 +1,4 @@
 import getMessage from "../common/LanguageVersionMessageFinder";
-import {useState} from "react";
 import {useInput} from "../common/InputUtils";
 
 export default function SearchBar({languageVersion, searchParams, setSearchParams}) {
@@ -37,7 +36,8 @@ function updateSearchParams(line, searchParams, setSearchParams) {
     setSearchParams({
         category: searchParams.category,
         params: line.split(" "),
-        colors: searchParams.colors
+        colors: searchParams.colors,
+        price: searchParams.price
     })
 }
 

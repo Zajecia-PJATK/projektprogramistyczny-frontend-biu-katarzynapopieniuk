@@ -37,7 +37,7 @@ function getCartProduct(simpleProduct, products, languageVersion, onRemove) {
 
 function getProduct(simpleProduct, products) {
     var foundProducts = products.filter(product => product.id === simpleProduct.id);
-    if(foundProducts.length == 0) {
+    if(foundProducts.length === 0) {
         return null;
     }
 

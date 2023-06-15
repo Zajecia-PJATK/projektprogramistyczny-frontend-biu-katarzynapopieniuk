@@ -17,7 +17,7 @@ function getOrderProducts(order, products, languageVersion) {
         .filter(simpleProduct => simpleProduct != null);
 }
 
-function getOrderProduct(simpleProduct, products, languageVersion, onRemove) {
+function getOrderProduct(simpleProduct, products, languageVersion) {
     var product = getProduct(simpleProduct, products);
     if (product == null) {
         return null;
@@ -27,7 +27,7 @@ function getOrderProduct(simpleProduct, products, languageVersion, onRemove) {
 
 function getProduct(simpleProduct, products) {
     var foundProducts = products.filter(product => product.id === simpleProduct.id);
-    if (foundProducts.length == 0) {
+    if (foundProducts.length === 0) {
         return null;
     }
 

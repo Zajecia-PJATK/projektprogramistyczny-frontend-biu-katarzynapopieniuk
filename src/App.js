@@ -19,7 +19,6 @@ import ordersData from "./data/orders.json";
 import CheckoutPage from "./pages/CheckoutPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
 import OrderPage from "./pages/OrderPage";
-import {v4 as uuidv4} from "uuid";
 
 function App() {
   const [products, setProducts] = useState(productsData);

@@ -20,5 +20,5 @@ export default function OrderProduct({product, quantity, languageVersion}) {
 }
 
 function getProductName(product, languageVersion) {
-    return product.name.filter(name => name.language==languageVersion).map(name => name.value)[0];
+    return product.name.filter(name => name.language===languageVersion).map(name => name.value)[0];
 }

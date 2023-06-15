@@ -19,6 +19,7 @@ import ordersData from "./data/orders.json";
 import CheckoutPage from "./pages/CheckoutPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
 import OrderPage from "./pages/OrderPage";
+import {v4 as uuidv4} from "uuid";
 
 function App() {
   const [products, setProducts] = useState(productsData);
@@ -64,7 +65,7 @@ function App() {
             <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)} user={getUserByEmail(loggedUserEmail, accounts)}/>}/>
             <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
             <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
-            <Route path="/checkout" element={<CheckoutPage cart={cart} products={products} languageVersion={languageVersion} addOrder={addOrder} loggedUserEmail={loggedUserEmail}/>}/>
+            <Route path="/checkout" element={<CheckoutPage cart={cart} products={products} languageVersion={languageVersion} addOrder={addOrder} loggedUserEmail={loggedUserEmail} setCart={setCart}/>}/>
             <Route path="/myorders" element={<MyOrdersPage languageVersion={languageVersion} orders={orders} loggedUserEmail={loggedUserEmail} products={products}/>}/>
             <Route path="/myorders/:id" element={<OrderPage languageVersion={languageVersion} orders={orders} loggedUserEmail={loggedUserEmail} products={products}/>}/>
             <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>

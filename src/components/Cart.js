@@ -1,6 +1,7 @@
 import CartProduct from "./CartProduct";
 import getMessage from "../common/LanguageVersionMessageFinder";
 import {useMemo, useState} from "react";
+import getCartTotalPrice from "../common/CartTotalPriceCalculator";
 
 export default function Cart({cart = [], setCart = f => f, products = [], languageVersion}) {
     const [total, setTotal] = useState();
@@ -48,20 +49,6 @@ function getCartTotal(total, languageVersion) {
         {getMessage(languageVersion, "total", LABELS)}
         {total}zł
     </div>
-}
-
-function getCartTotalPrice(cart, products) {
-    return cart.map(simpleProduct => getProductTotalPrice(simpleProduct, products))
-        .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-}
-
-function getProductTotalPrice(simpleProduct, products) {
-    var product = getProduct(simpleProduct, products);
-    if(product == null) {
-        return 0;
-    }
-
-    return product.price * simpleProduct.quantity;
 }
 
 const LABELS = [

@@ -4,8 +4,10 @@ import * as Yup from 'yup';
 import getMessage from "../../common/LanguageVersionMessageFinder";
 import CardPaymentForm from "./CardPaymentForm";
 import NotFoundPage from "../../pages/NotFoundPage";
+import getCartTotalPrice from "../../common/CartTotalPriceCalculator";
+import {v4 as uuidv4} from 'uuid';
 
-export default function OrderForm({languageVersion, cart=[], products = [], addOrder, loggedUserEmail}) {
+export default function OrderForm({languageVersion, cart=[], products = [], addOrder, loggedUserEmail, setCart}) {
     const [paymentMethod, setPaymentMethod] = useState("card");
 
     function onPaymentMethodChange(event) {
@@ -38,8 +40,8 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
                 .required(getMessage(languageVersion, "required", LABELS)),
         }),
         onSubmit: values => {
-           // var message = addAccount(values, accounts, setAccounts);
-           // alert(JSON.stringify(message, null, 2));
+           onAddOrder(values, cart, addOrder, loggedUserEmail, products);
+            setCart([]);
         },
     });
     if(loggedUserEmail === "") {
@@ -154,22 +156,35 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
     );
 };
 
-function addAccount(data, accounts, setAccounts) {
-    var existingAccount = accounts.filter(account => account.email === data.email);
-    if(existingAccount.length > 0) {
-        return "Account already exists!";
+function onAddOrder(data, cart, addOrder, loggedUserEmail, products) {
+    function createOrderProduct(product) {
+        return {
+            "id": product.id,
+            "quantity": product.quantity,
+            "price": product.price,
+            "usedCouponId": null
+        }
     }
 
-    var hashedPassword = data.password;
-    var newAccount = {
-        "firstName": data.firstName,
-        "lastName": data.lastName,
-        "email": data.email,
-        "password": hashedPassword
+    var orderProducts = cart.map(product => createOrderProduct(product))
+
+    var newOrder = {
+        "id": uuidv4(),
+        "userEmail": loggedUserEmail,
+        "address": {
+            "street": data.street,
+            "city": data.city,
+            "country": data.country,
+            "postcode": data.postCode
+        },
+        "products": orderProducts,
+        "promoCodeId": null,
+        "totalPrice": getCartTotalPrice(cart, products),
+        "paymentMethod": "card"
     }
 
-    setAccounts([...accounts, newAccount]);
-    return "Account created successfully";
+    addOrder(newOrder);
+    return "Order created successfully";
 }
 
 const LABELS = [

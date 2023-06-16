@@ -74,7 +74,7 @@ const MESSAGES = [
         "values": [
             {
                 "language" : "english",
-                "value": "Add to bag"
+                "value": "Add to cart"
             },
             {
                 "language" : "polish",

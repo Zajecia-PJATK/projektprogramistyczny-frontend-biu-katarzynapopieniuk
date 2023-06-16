@@ -1,0 +1,67 @@
+[
+    {
+        "name": "orderNotArrived",
+        "values": [
+            {
+                "language": "english",
+                "value": "Order didn't arrive"
+            },
+            {
+                "language": "polish",
+                "value": "Zamówienie nie zostało dostarczone"
+            }
+        ]
+    },
+    {
+        "name": "itemIsMissing",
+        "values": [
+            {
+                "language": "english",
+                "value": "Item is missing from the order"
+            },
+            {
+                "language": "polish",
+                "value": "Brakujący przedmiot w zamówieniu"
+            }
+        ]
+    },
+    {
+        "name": "itemDamaged",
+        "values": [
+            {
+                "language": "english",
+                "value": "Item is damaged"
+            },
+            {
+                "language": "polish",
+                "value": "Przedmiot jest uszkodzony"
+            }
+        ]
+    },
+    {
+        "name": "notMatchingDescription",
+        "values": [
+            {
+                "language": "english",
+                "value": "Item doesn't match desription"
+            },
+            {
+                "language": "polish",
+                "value": "Przedmiot niezgodny z opisem"
+            }
+        ]
+    },
+    {
+        "name": "other",
+        "values": [
+            {
+                "language": "english",
+                "value": "Other"
+            },
+            {
+                "language": "polish",
+                "value": "Inny"
+            }
+        ]
+    }
+]

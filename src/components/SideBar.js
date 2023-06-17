@@ -1,13 +1,12 @@
-import {useContext, useState} from "react";
-import productCategoriesData from "../config/productCategories.json";
 import getMessage from "../common/LanguageVersionMessageFinder";
 import {Link} from "react-router-dom";
 import handleCheckBoxSelectionChange from "../common/CheckBoxOnChangeHandler";
 import {useProductColors} from "./ColorProvider";
+import {useProductCategories} from "./ProductCategoriesProvider";
 
 
 export default function SideBar({languageVersion, searchParams, setSearchParams}) {
-    const [productCategories, setProductCategories] = useState(productCategoriesData);
+    const {productCategories} = useProductCategories();
     const { colors } = useProductColors();
     return <aside id="default-sidebar"
                   className="fixed top-28 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"

@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import ColorProvider from "./components/ColorProvider";
+import ProductCategoriesProvider from "./components/ProductCategoriesProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -12,7 +13,9 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <ColorProvider>
-                <App/>
+                <ProductCategoriesProvider>
+                    <App/>
+                </ProductCategoriesProvider>
             </ColorProvider>
         </BrowserRouter>
     </React.StrictMode>

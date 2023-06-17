@@ -6,6 +6,7 @@ import OrderSummary from "../components/orders/OrderSummary";
 import getProductBySimpleProduct from "../common/ProductRetriever";
 import possibleOrderProblemsData from "../config/possibleOrderProblems.json";
 import handleCheckBoxSelectionChange from "../common/CheckBoxOnChangeHandler";
+import getOrderStatus from "../common/OrderStatusRetriever";
 
 export default function OrderPage({languageVersion, orders, loggedUserEmail, products}) {
     const {id} = useParams();
@@ -39,7 +40,7 @@ export default function OrderPage({languageVersion, orders, loggedUserEmail, pro
     return <div className="p-4 sm:ml-64">
         <OrderSummary order={order} languageVersion={languageVersion} products={products}/>
         {getAddress(order, languageVersion)}
-        {getPayment(order, languageVersion)}
+        {getStatus(order, languageVersion)}
         <button id="bordered-radio-2" type="button" value="card" name="bordered-radio"
                 className="w-full h-10 border-2 border-violet-400 bg-violet-50"
                 onClick={onReturnOrderSelectionChange}>
@@ -80,12 +81,19 @@ function getAddress(order, languageVersion) {
     </div>
 }
 
-function getPayment(order, languageVersion) {
+function getStatus(order, languageVersion) {
     return <div className="border-2 border-violet-400">
-        {getMessage(languageVersion, "paymentMethod", LABELS)}
-        {getMessage(languageVersion, order.paymentMethod, LABELS)}
+        <div>
+            {getMessage(languageVersion, "paymentMethod", LABELS)}
+            {getMessage(languageVersion, order.paymentMethod, LABELS)}
+        </div>
+        <div>
+            {getMessage(languageVersion, "orderStatus", LABELS)}
+            {getOrderStatus(order, languageVersion)}
+        </div>
     </div>
 }
+
 
 function getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selectedProductsIdsForReturn, setProductsIdsForReturn, products) {
     return <div className="border-t border-gray-200 px-4 py-6" hidden={!isReturnOrderSelected}>
@@ -287,6 +295,19 @@ const LABELS = [
             {
                 "language": "polish",
                 "value": "Zaznacz problemy ze swoim zamówieniem"
+            }
+        ]
+    },
+    {
+        "name": "orderStatus",
+        "values": [
+            {
+                "language": "english",
+                "value": "Order status: "
+            },
+            {
+                "language": "polish",
+                "value": "Status zamówienia: "
             }
         ]
     }

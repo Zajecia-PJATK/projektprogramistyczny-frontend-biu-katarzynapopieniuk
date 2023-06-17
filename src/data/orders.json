@@ -18,6 +18,7 @@
     ],
     "promoCodeId": null,
     "totalPrice": 200,
-    "paymentMethod": "card"
+    "paymentMethod": "card",
+    "status": "sent"
   }
 ]

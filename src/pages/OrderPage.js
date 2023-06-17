@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router-dom";
 import getMessage from "../common/LanguageVersionMessageFinder";
-import React, {useState} from "react";
+import React, {useReducer, useState} from "react";
 import NotFoundPage from "./NotFoundPage";
 import OrderSummary from "../components/orders/OrderSummary";
 import getProductBySimpleProduct from "../common/ProductRetriever";
@@ -11,20 +11,12 @@ import possibleOrderStatusesData from "../config/possibleOrderStatuses.json";
 
 export default function OrderPage({languageVersion, orders, loggedUserEmail, products}) {
     const {id} = useParams();
-    const [isReturnOrderSelected, setReturnOrderSelection] = useState(false);
-    const [isOrderProblemsSelected, setOrderProblemsSelection] = useState(false);
+    const [isReturnOrderSelected, toggleReturnOrderSelection] = useReducer(isReturnOrderSelected => !isReturnOrderSelected, false);
+    const [isOrderProblemsSelected, toggleOrderProblemsSelection] = useReducer(isOrderProblemsSelected => !isOrderProblemsSelected, false);
     const [selectedProductsIdsForReturn, setProductsIdsForReturn] = useState([]);
     const [possibleOrderProblems] = useState(possibleOrderProblemsData);
     const [selectedOrderProblems, setSelectedOrderProblems] = useState([]);
     const [possibleOrderStatuses] = useState(possibleOrderStatusesData);
-
-    function onReturnOrderSelectionChange(event) {
-        setReturnOrderSelection(!isReturnOrderSelected);
-    }
-
-    function onOrderProblemsSelectionChange(event) {
-        setOrderProblemsSelection(!isOrderProblemsSelected);
-    }
 
     if (loggedUserEmail === "") {
         return <NotFoundPage/>
@@ -45,13 +37,13 @@ export default function OrderPage({languageVersion, orders, loggedUserEmail, pro
         {getStatus(order, languageVersion, possibleOrderStatuses)}
         <button id="bordered-radio-2" type="button" value="card" name="bordered-radio"
                 className="w-full h-10 border-2 border-violet-400 bg-violet-50"
-                onClick={onReturnOrderSelectionChange}>
+                onClick={toggleReturnOrderSelection}>
             {getMessage(languageVersion, "returnOrder", LABELS)}
         </button>
         {getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selectedProductsIdsForReturn, setProductsIdsForReturn, products)}
         <button id="bordered-radio-2" type="button" value="card" name="bordered-radio"
                 className="w-full h-10 border-2 border-violet-400 bg-violet-50"
-                onClick={onOrderProblemsSelectionChange}>
+                onClick={toggleOrderProblemsSelection}>
             {getMessage(languageVersion, "problemWithOrder", LABELS)}
         </button>
         {getComplaintForm(order, languageVersion, isOrderProblemsSelected, possibleOrderProblems, selectedOrderProblems, setSelectedOrderProblems)}

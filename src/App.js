@@ -13,7 +13,6 @@ import LanguageVersionPicker from "./components/LanguageVersionPicker";
 import accountsData from "./data/userAccounts.json";
 import LoginPage from "./pages/LoginPage";
 import SideBar from "./components/SideBar";
-import productColorsData from "./config/productColors.json";
 import getUserByEmail from "./common/UserDataRetriever";
 import ordersData from "./data/orders.json";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -33,7 +32,6 @@ function App() {
         colors: [],
         price: {min: null, max: null}
     });
-    const [productColors, setProductColors] = useState(productColorsData);
     const [orders, setOrders] = useState(ordersData);
 
     const [isLoggedUserAdmin, setIsLoggedUserAdmin] = useState(false);
@@ -105,8 +103,7 @@ function App() {
                 <Route path="/adminpanel" element={<AdminPanelPage languageVersion={languageVersion} isLoggedUserAdmin={isLoggedUserAdmin}/> }/>
                 <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
             </Routes>
-            <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}
-                     productColors={productColors}/>
+            <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}/>
         </div>
     );
 }

@@ -137,7 +137,8 @@ function addAccount(data, accounts, setAccounts) {
         "firstName": data.firstName,
         "lastName": data.lastName,
         "email": data.email,
-        "password": hashedPassword
+        "password": hashedPassword,
+        "isAdmin": false
     }
 
     setAccounts([...accounts, newAccount]);

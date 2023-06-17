@@ -1,0 +1,54 @@
+[
+  {
+    "name": "sent",
+    "values": [
+      {
+        "language": "english",
+        "value": "sent"
+      },
+      {
+        "language": "polish",
+        "value": "Wysłane"
+      }
+    ]
+  },
+  {
+    "name": "inProcess",
+    "values": [
+      {
+        "language": "english",
+        "value": "In process"
+      },
+      {
+        "language": "polish",
+        "value": "W trakcie przetwarzania"
+      }
+    ]
+  },
+  {
+    "name": "returned",
+    "values": [
+      {
+        "language": "english",
+        "value": "Returned"
+      },
+      {
+        "language": "polish",
+        "value": "Zwrócone"
+      }
+    ]
+  },
+  {
+    "name": "waitingForPayment",
+    "values": [
+      {
+        "language": "english",
+        "value": "Waiting for payment"
+      },
+      {
+        "language": "polish",
+        "value": "Oczekiwanie na zapłatę"
+      }
+    ]
+  }
+]

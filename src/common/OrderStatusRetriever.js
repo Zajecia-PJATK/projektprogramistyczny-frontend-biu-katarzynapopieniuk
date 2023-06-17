@@ -1,21 +1,5 @@
 import getMessage from "./LanguageVersionMessageFinder";
 
-export default function getOrderStatus(order, languageVersion) {
-    return getMessage(languageVersion, order.status, LABELS);
+export default function getOrderStatus(order, languageVersion, orderStatuses) {
+    return getMessage(languageVersion, order.status, orderStatuses);
 }
-
-const LABELS = [
-    {
-        "name" : "sent",
-        "values": [
-            {
-                "language" : "english",
-                "value": "sent"
-            },
-            {
-                "language" : "polish",
-                "value": "wysłane"
-            }
-        ]
-    }
-]

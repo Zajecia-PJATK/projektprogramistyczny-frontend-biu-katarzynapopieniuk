@@ -1,6 +1,6 @@
 import './App.css';
 import {Link, Route, Routes} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -19,23 +19,36 @@ import ordersData from "./data/orders.json";
 import CheckoutPage from "./pages/CheckoutPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
 import OrderPage from "./pages/OrderPage";
+import AdminPanelPage from "./pages/AdminPanelPage";
 
 function App() {
-  const [products, setProducts] = useState(productsData);
-  const [languageVersion, setLanguageVersion] = useState("polish");
-  const [cart, setCart] = useState([]);
-  const [accounts, setAccounts] = useState(accountsData);
-  const [loggedUserEmail, setLoggedUserEmail] = useState("");
-  const [searchParams, setSearchParams] = useState({category: "", params: [], colors: [], price: {min: null, max: null}});
-  const [productColors, setProductColors] = useState(productColorsData);
-  const [orders, setOrders] = useState(ordersData);
+    const [products, setProducts] = useState(productsData);
+    const [languageVersion, setLanguageVersion] = useState("polish");
+    const [cart, setCart] = useState([]);
+    const [accounts, setAccounts] = useState(accountsData);
+    const [loggedUserEmail, setLoggedUserEmail] = useState("");
+    const [searchParams, setSearchParams] = useState({
+        category: "",
+        params: [],
+        colors: [],
+        price: {min: null, max: null}
+    });
+    const [productColors, setProductColors] = useState(productColorsData);
+    const [orders, setOrders] = useState(ordersData);
+
+    const [isLoggedUserAdmin, setIsLoggedUserAdmin] = useState(false);
+    useMemo(() => {
+        setIsLoggedUserAdmin(
+            isUserIsAdmin(loggedUserEmail, accounts)
+        );
+    }, [loggedUserEmail]);
 
     function addProduct(productId) {
         var productsWithMatchingId = cart.filter(product => product.id === productId);
         var newCart;
 
-        if(productsWithMatchingId.length > 0) {
-            newCart = cart.map( product => product.id === productId ? updateProduct(product) : product);
+        if (productsWithMatchingId.length > 0) {
+            newCart = cart.map(product => product.id === productId ? updateProduct(product) : product);
         } else {
             newCart = [...cart, {id: productId, quantity: 1}];
         }
@@ -47,111 +60,148 @@ function App() {
         setOrders([...orders, order]);
     }
 
-  return (
-    <div className="App">
-        <nav className="navigation">
-            <ul>
-                <li><Link to="/">{getMessage(languageVersion, "home", PAGE_NAMES)}</Link></li>
-                <li><Link to="/myorders" hidden={loggedUserEmail===""}>{getMessage(languageVersion, "orders", PAGE_NAMES)}</Link></li>
-                <li><Link to="/cart">{getMessage(languageVersion, "cart", PAGE_NAMES)}<FaShoppingCart size="30"/>{getProductsAmount(cart)}</Link></li>
-                {getLinksDependingOnIfUserIsLogged(languageVersion, loggedUserEmail, setLoggedUserEmail)}
-                <li><LanguageVersionPicker onPickedLanguage={(language) => {setLanguageVersion(language)}}/></li>
-            </ul>
-        </nav>
-        <Routes>
-            <Route path="/" element={<HomePage products={products} languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}/>}/>
-            <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products} languageVersion={languageVersion} addOrder={addOrder} loggedUserEmail={loggedUserEmail}/>}/>
-            <Route path="/products/:id" element={<ProductPage products={products} languageVersion={languageVersion} cart={cart} onAddProduct={(id) => addProduct(id)} onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)} user={getUserByEmail(loggedUserEmail, accounts)}/>}/>
-            <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts} setAccounts={setAccounts}/>}/>
-            <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts} setLoggetUserEmail={setLoggedUserEmail}/>}/>
-            <Route path="/checkout" element={<CheckoutPage cart={cart} products={products} languageVersion={languageVersion} addOrder={addOrder} loggedUserEmail={loggedUserEmail} setCart={setCart}/>}/>
-            <Route path="/myorders" element={<MyOrdersPage languageVersion={languageVersion} orders={orders} loggedUserEmail={loggedUserEmail} products={products}/>}/>
-            <Route path="/myorders/:id" element={<OrderPage languageVersion={languageVersion} orders={orders} loggedUserEmail={loggedUserEmail} products={products}/>}/>
-            <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
-        </Routes>
-        <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams} productColors={productColors}/>
-    </div>
-  );
+    return (
+        <div className="App">
+            <nav className="navigation">
+                <ul>
+                    <li><Link to="/">{getMessage(languageVersion, "home", PAGE_NAMES)}</Link></li>
+                    <li><Link to="/myorders"
+                              hidden={loggedUserEmail === "" || isLoggedUserAdmin}>{getMessage(languageVersion, "orders", PAGE_NAMES)}</Link>
+                    </li>
+                    <li><Link to="/cart" hidden={isLoggedUserAdmin}>{getMessage(languageVersion, "cart", PAGE_NAMES)}<FaShoppingCart
+                        size="30"/>{getProductsAmount(cart)}</Link></li>
+                    <li><Link to="/adminpanel" hidden={!isLoggedUserAdmin}>{getMessage(languageVersion, "adminPanel", PAGE_NAMES)}</Link></li>
+                    {getLinksDependingOnIfUserIsLogged(languageVersion, loggedUserEmail, setLoggedUserEmail)}
+                    <li><LanguageVersionPicker onPickedLanguage={(language) => {
+                        setLanguageVersion(language)
+                    }}/></li>
+                </ul>
+            </nav>
+            <Routes>
+                <Route path="/" element={<HomePage products={products} languageVersion={languageVersion}
+                                                   searchParams={searchParams} setSearchParams={setSearchParams}/>}/>
+                <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} products={products}
+                                                       languageVersion={languageVersion} addOrder={addOrder}
+                                                       loggedUserEmail={loggedUserEmail}/>}/>
+                <Route path="/products/:id"
+                       element={<ProductPage products={products} languageVersion={languageVersion} cart={cart}
+                                             onAddProduct={(id) => addProduct(id)}
+                                             onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)}
+                                             user={getUserByEmail(loggedUserEmail, accounts)}/>}/>
+                <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts}
+                                                           setAccounts={setAccounts}/>}/>
+                <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts}
+                                                         setLoggetUserEmail={setLoggedUserEmail}/>}/>
+                <Route path="/checkout"
+                       element={<CheckoutPage cart={cart} products={products} languageVersion={languageVersion}
+                                              addOrder={addOrder} loggedUserEmail={loggedUserEmail}
+                                              setCart={setCart}/>}/>
+                <Route path="/myorders" element={<MyOrdersPage languageVersion={languageVersion} orders={orders}
+                                                               loggedUserEmail={loggedUserEmail}
+                                                               products={products}/>}/>
+                <Route path="/myorders/:id" element={<OrderPage languageVersion={languageVersion} orders={orders}
+                                                                loggedUserEmail={loggedUserEmail}
+                                                                products={products}/>}/>
+                <Route path="/adminpanel" element={<AdminPanelPage languageVersion={languageVersion} isLoggedUserAdmin={isLoggedUserAdmin}/> }/>
+                <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
+            </Routes>
+            <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}
+                     productColors={productColors}/>
+        </div>
+    );
 }
 
 export default App;
 
 const PAGE_NAMES = [
     {
-        "name" : "home",
+        "name": "home",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Home"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Strona główna"
             }
         ]
     },
     {
-        "name" : "cart",
+        "name": "cart",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Cart"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Koszyk"
             }
         ]
     },
     {
-        "name" : "signup",
+        "name": "signup",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Sign Up"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Zarejestruj się"
             }
         ]
     },
     {
-        "name" : "login",
+        "name": "login",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Log in"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Zaloguj się"
             }
         ]
     },
     {
-        "name" : "logout",
+        "name": "logout",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Log out"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Wyloguj się"
             }
         ]
     },
     {
-        "name" : "orders",
+        "name": "orders",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "My orders"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Moje zamówienia"
+            }
+        ]
+    },
+    {
+        "name": "adminPanel",
+        "values": [
+            {
+                "language": "english",
+                "value": "Admin panel"
+            },
+            {
+                "language": "polish",
+                "value": "Panel administratora"
             }
         ]
     }
@@ -168,7 +218,7 @@ function getProductsAmount(cart) {
 }
 
 function getLinksDependingOnIfUserIsLogged(languageVersion, loggedUserEmail, setLoggedUserEmail) {
-    if(loggedUserEmail === "") {
+    if (loggedUserEmail === "") {
         return <>
             <li><Link to="/signup">{getMessage(languageVersion, "signup", PAGE_NAMES)}</Link></li>
             <li><Link to="/login">{getMessage(languageVersion, "login", PAGE_NAMES)}</Link></li>
@@ -177,7 +227,8 @@ function getLinksDependingOnIfUserIsLogged(languageVersion, loggedUserEmail, set
 
     return <li>{getLogoutButton(getMessage(languageVersion, "logout", PAGE_NAMES), () => setLoggedUserEmail(""))}</li>
 }
-function getLogoutButton(name, onLogoutButton =  f => f) {
+
+function getLogoutButton(name, onLogoutButton = f => f) {
     return <button onClick={() => onLogoutButton()}
                    className="block text-white w-20 text-2xl m-2 cursor-pointer">
         {name}
@@ -193,4 +244,13 @@ function onRateProduct(id, rating, products, setProducts) {
 function updatePhotoRatings(product, rating) {
     product.rating = rating;
     return product;
+}
+
+function isUserIsAdmin(loggedUserEmail, accounts) {
+    var user = getUserByEmail(loggedUserEmail, accounts);
+    if (user === null) {
+        return false;
+    }
+
+    return user.isAdmin;
 }

@@ -7,14 +7,16 @@ import getProductBySimpleProduct from "../common/ProductRetriever";
 import possibleOrderProblemsData from "../config/possibleOrderProblems.json";
 import handleCheckBoxSelectionChange from "../common/CheckBoxOnChangeHandler";
 import getOrderStatus from "../common/OrderStatusRetriever";
+import possibleOrderStatusesData from "../config/possibleOrderStatuses.json";
 
 export default function OrderPage({languageVersion, orders, loggedUserEmail, products}) {
     const {id} = useParams();
     const [isReturnOrderSelected, setReturnOrderSelection] = useState(false);
     const [isOrderProblemsSelected, setOrderProblemsSelection] = useState(false);
     const [selectedProductsIdsForReturn, setProductsIdsForReturn] = useState([]);
-    const [possibleOrderProblems, setPossibleOrderProblems] = useState(possibleOrderProblemsData);
+    const [possibleOrderProblems] = useState(possibleOrderProblemsData);
     const [selectedOrderProblems, setSelectedOrderProblems] = useState([]);
+    const [possibleOrderStatuses] = useState(possibleOrderStatusesData);
 
     function onReturnOrderSelectionChange(event) {
         setReturnOrderSelection(!isReturnOrderSelected);
@@ -40,7 +42,7 @@ export default function OrderPage({languageVersion, orders, loggedUserEmail, pro
     return <div className="p-4 sm:ml-64">
         <OrderSummary order={order} languageVersion={languageVersion} products={products}/>
         {getAddress(order, languageVersion)}
-        {getStatus(order, languageVersion)}
+        {getStatus(order, languageVersion, possibleOrderStatuses)}
         <button id="bordered-radio-2" type="button" value="card" name="bordered-radio"
                 className="w-full h-10 border-2 border-violet-400 bg-violet-50"
                 onClick={onReturnOrderSelectionChange}>
@@ -81,7 +83,7 @@ function getAddress(order, languageVersion) {
     </div>
 }
 
-function getStatus(order, languageVersion) {
+function getStatus(order, languageVersion, possibleOrderStatuses) {
     return <div className="border-2 border-violet-400">
         <div>
             {getMessage(languageVersion, "paymentMethod", LABELS)}
@@ -89,7 +91,7 @@ function getStatus(order, languageVersion) {
         </div>
         <div>
             {getMessage(languageVersion, "orderStatus", LABELS)}
-            {getOrderStatus(order, languageVersion)}
+            {getOrderStatus(order, languageVersion, possibleOrderStatuses)}
         </div>
     </div>
 }

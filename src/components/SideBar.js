@@ -30,7 +30,7 @@ function getProductCategories(categories, languageVersion, searchParams, setSear
 function getProductCategory(category, languageVersion) {
     return {
         category: category.name,
-        displayName: category.displayName.filter(name => name.language == languageVersion).map(name => name.value)[0]
+        displayName: category.displayName.filter(name => name.language === languageVersion).map(name => name.value)[0]
     };
 }
 
@@ -69,8 +69,8 @@ function getColorFilters(languageVersion, searchParams, setSearchParams, product
         <h3 className="-mx-2 -my-3 flex w-full items-center justify-between px-2 py-3 text-gray-900 font-medium">
             {getMessage(languageVersion, "color", LABELS)}
         </h3>
-        <div class="pt-6" id="filter-section-mobile-0">
-            <div class="space-y-6">
+        <div className="pt-6" id="filter-section-mobile-0">
+            <div className="space-y-6">
                 {productColors.map(color => getInputForColor(color, languageVersion, searchParams, setSearchParams))}
             </div>
         </div>
@@ -96,7 +96,7 @@ function getInputForColor(color, languageVersion, searchParams, setSearchParams)
                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                onChange={handleColorFilterChange}/>
         <label htmlFor="filter-mobile-color-5"
-               className="ml-3 min-w-0 flex-1 text-gray-500">{color.values.filter(color => color.language == languageVersion).map(color => color.value)[0]}</label>
+               className="ml-3 min-w-0 flex-1 text-gray-500">{color.values.filter(color => color.language === languageVersion).map(color => color.value)[0]}</label>
     </div>
 }
 

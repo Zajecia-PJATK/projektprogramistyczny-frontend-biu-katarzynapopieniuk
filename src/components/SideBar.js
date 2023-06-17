@@ -2,6 +2,7 @@ import {useState} from "react";
 import productCategoriesData from "../config/productCategories.json";
 import getMessage from "../common/LanguageVersionMessageFinder";
 import {Link} from "react-router-dom";
+import handleCheckBoxSelectionChange from "../common/CheckBoxOnChangeHandler";
 
 export default function SideBar({languageVersion, searchParams, setSearchParams, productColors}) {
     const [productCategories, setProductCategories] = useState(productCategoriesData);
@@ -75,19 +76,17 @@ function getColorFilters(languageVersion, searchParams, setSearchParams, product
 }
 
 function getInputForColor(color, languageVersion, searchParams, setSearchParams) {
-    function handleColorFilterChange(event) {
-        var newColorsFilter;
-        if (searchParams.colors.filter(color => color === event.target.value).length > 0) {
-            newColorsFilter = searchParams.colors.filter(color => color !== event.target.value);
-        } else {
-            newColorsFilter = [...searchParams.colors, event.target.value];
-        }
+
+    function setColors(newColorsFilter) {
         setSearchParams({
             category: searchParams.category,
             params: searchParams.params,
             colors: newColorsFilter,
             price: {min: searchParams.price.min, max: searchParams.price.max}
         })
+    }
+    function handleColorFilterChange(event) {
+        handleCheckBoxSelectionChange(event, searchParams.colors, setColors)
     }
 
     return <div className="flex items-center">

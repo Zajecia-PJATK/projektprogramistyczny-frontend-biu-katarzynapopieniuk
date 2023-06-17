@@ -5,6 +5,7 @@ import NotFoundPage from "./NotFoundPage";
 import OrderSummary from "../components/orders/OrderSummary";
 import getProductBySimpleProduct from "../common/ProductRetriever";
 import possibleOrderProblemsData from "../config/possibleOrderProblems.json";
+import handleCheckBoxSelectionChange from "../common/CheckBoxOnChangeHandler";
 
 export default function OrderPage({languageVersion, orders, loggedUserEmail, products}) {
     const {id} = useParams();
@@ -40,8 +41,8 @@ export default function OrderPage({languageVersion, orders, loggedUserEmail, pro
         {getAddress(order, languageVersion)}
         {getPayment(order, languageVersion)}
         <button id="bordered-radio-2" type="button" value="card" name="bordered-radio"
-               className="w-full h-10 border-2 border-violet-400 bg-violet-50"
-               onClick={onReturnOrderSelectionChange}>
+                className="w-full h-10 border-2 border-violet-400 bg-violet-50"
+                onClick={onReturnOrderSelectionChange}>
             {getMessage(languageVersion, "returnOrder", LABELS)}
         </button>
         {getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selectedProductsIdsForReturn, setProductsIdsForReturn, products)}
@@ -108,13 +109,7 @@ function getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selec
 
 function getReturnProductCheckbox(product, languageVersion, selectedProductsIdsForReturn, setProductsIdsForReturn, products) {
     function handleProductSelectionChange(event) {
-        var newProductsIds;
-        if (selectedProductsIdsForReturn.filter(productId => productId === event.target.value).length > 0) {
-            newProductsIds = selectedProductsIdsForReturn.filter(color => color !== event.target.value);
-        } else {
-            newProductsIds = [...selectedProductsIdsForReturn, event.target.value];
-        }
-        setProductsIdsForReturn(newProductsIds);
+        handleCheckBoxSelectionChange(event, selectedProductsIdsForReturn, setProductsIdsForReturn);
     }
 
     return <div className="flex items-center">
@@ -127,8 +122,9 @@ function getReturnProductCheckbox(product, languageVersion, selectedProductsIdsF
 }
 
 function getProductName(product, languageVersion) {
-    return product.name.filter(name => name.language===languageVersion).map(name => name.value)[0];
+    return product.name.filter(name => name.language === languageVersion).map(name => name.value)[0];
 }
+
 function getComplaintForm(order, languageVersion, isOrderProblemsSelected, possibleOrderProblems, selectedOrderProblems, setSelectedOrderProblems) {
     return <div className="border-t border-gray-200 px-4 py-6" hidden={!isOrderProblemsSelected}>
         <h3 className="-mx-2 -my-3 flex w-full items-center px-2 py-3 text-gray-900 font-medium">
@@ -151,13 +147,7 @@ function getComplaintForm(order, languageVersion, isOrderProblemsSelected, possi
 
 function getOrderProblemCheckbox(problem, languageVersion, selectedOrderProblems, setSelectedOrderProblems) {
     function handleProblemSelectionChange(event) {
-        var newOrderProblems;
-        if (selectedOrderProblems.filter(productId => productId === event.target.value).length > 0) {
-            newOrderProblems = selectedOrderProblems.filter(color => color !== event.target.value);
-        } else {
-            newOrderProblems = [...selectedOrderProblems, event.target.value];
-        }
-        setSelectedOrderProblems(newOrderProblems);
+        handleCheckBoxSelectionChange(event, selectedOrderProblems, setSelectedOrderProblems)
     }
 
     return <div className="flex items-center">
@@ -223,79 +213,79 @@ const LABELS = [
         ]
     },
     {
-        "name" : "transfer",
+        "name": "transfer",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Transfer"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Przelew"
             }
         ]
     },
     {
-        "name" : "card",
+        "name": "card",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Card"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Karta"
             }
         ]
     },
     {
-        "name" : "returnOrder",
+        "name": "returnOrder",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Return order"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Zwróć zamówienie"
             }
         ]
     },
     {
-        "name" : "problemWithOrder",
+        "name": "problemWithOrder",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Problem with order"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Zgłoś problem z zamówieniem"
             }
         ]
     },
     {
-        "name" : "markProductsToReturn",
+        "name": "markProductsToReturn",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Mark products to return"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Zaznacz produkty do zwrotu"
             }
         ]
     },
     {
-        "name" : "markOrderProblems",
+        "name": "markOrderProblems",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Mark problems with your order"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Zaznacz problemy ze swoim zamówieniem"
             }
         ]

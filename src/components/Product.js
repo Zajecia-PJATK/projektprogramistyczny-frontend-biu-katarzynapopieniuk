@@ -22,7 +22,7 @@ export default function Product({product, languageVersion, onAddProduct, onRate 
             <div className="flex space-x-4 mb-5 text-sm font-medium ml-5">
                 <div className="flex-auto flex space-x-4">
                     <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
-                            type="button" onClick={() => onAddProduct(product.id, "a")}>
+                            type="button" onClick={() => onAddProduct(product.id)}>
                         {getAddToBagMessage(languageVersion)}
                     </button>
                 </div>

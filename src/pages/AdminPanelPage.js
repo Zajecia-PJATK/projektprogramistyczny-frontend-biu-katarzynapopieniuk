@@ -5,14 +5,16 @@ import getMessage from "../common/LanguageVersionMessageFinder";
 import React, {useReducer} from "react";
 import {useProductCategories} from "../components/ProductCategoriesProvider";
 import getToggleButton from "../common/ToggleButton";
+import OrdersManager from "../components/orders/OrdersManager";
 
-export default function AdminPanelPage({languageVersion, isLoggedUserAdmin}) {
+export default function AdminPanelPage({languageVersion, isLoggedUserAdmin, orders, setOrders, products}) {
     const { colors, setColors } = useProductColors();
     const { productCategories, setProductCategories } = useProductCategories();
     const [colorFiltersConfig] = useInput(JSON.stringify(colors, undefined, 4));
     const [productCategoriesConfig] = useInput(JSON.stringify(productCategories, undefined, 4));
     const [isColorFilterConfigSelected, toggleColorFilterConfigSelection] = useReducer(isColorFilterConfigSelected => !isColorFilterConfigSelected, false);
     const [isProductCategoriesConfigSelected, toggleProductCategoriesConfigSelection] = useReducer(isProductCategoriesConfigSelected => !isProductCategoriesConfigSelected, false);
+    const [isOrderManagementSelected, toggleOrderManagementSelection] = useReducer(isOrderManagementSelected => !isOrderManagementSelected, false);
 
     if(!isLoggedUserAdmin) {
         return <NotFoundPage languageVersion={languageVersion}/>
@@ -53,6 +55,10 @@ export default function AdminPanelPage({languageVersion, isLoggedUserAdmin}) {
         {getConfigForm(languageVersion, isColorFilterConfigSelected, colorFiltersConfig, onChangeColorsConfig)}
         {getToggleButton(toggleProductCategoriesConfigSelection, languageVersion, "shopCategoriesConfig", LABELS)}
         {getConfigForm(languageVersion, isProductCategoriesConfigSelected, productCategoriesConfig, onChangeProductCategoriesConfig)}
+        {getToggleButton(toggleOrderManagementSelection, languageVersion, "orderManagement", LABELS)}
+        <div hidden={!isOrderManagementSelected}>
+            <OrdersManager orders={orders} products={products} setOrders={setOrders} languageVersion={languageVersion}/>
+        </div>
     </div>
 }
 
@@ -159,6 +165,19 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Zapisz konfigurację kategorii produktów"
+            }
+        ]
+    },
+    {
+        "name" : "orderManagement",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Order management"
+            },
+            {
+                "language" : "polish",
+                "value": "Zarządzanie zamówieniami"
             }
         ]
     }

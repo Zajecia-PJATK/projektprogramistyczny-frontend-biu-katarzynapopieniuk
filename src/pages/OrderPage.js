@@ -6,9 +6,9 @@ import OrderSummary from "../components/orders/OrderSummary";
 import getProductBySimpleProduct from "../common/ProductRetriever";
 import possibleOrderProblemsData from "../config/possibleOrderProblems.json";
 import handleCheckBoxSelectionChange from "../common/CheckBoxOnChangeHandler";
-import getOrderStatus from "../common/OrderStatusRetriever";
 import possibleOrderStatusesData from "../config/possibleOrderStatuses.json";
 import getToggleButton from "../common/ToggleButton";
+import {getAddress, getStatus} from "../components/orders/OrderDataRetriever";
 
 export default function OrderPage({languageVersion, orders, loggedUserEmail, products}) {
     const {id} = useParams();
@@ -47,40 +47,6 @@ function getOrderForUser(orders, loggedUserEmail, id) {
     return orders.filter(order => order.userEmail === loggedUserEmail)
         .filter(order => order.id === id);
 }
-
-function getAddress(order, languageVersion) {
-    return <div className="border-2 border-violet-400">
-        <div>
-            {getMessage(languageVersion, "address", LABELS)}
-        </div>
-        <div>
-            {order.address.street}
-        </div>
-        <div>
-            {order.address.city}
-        </div>
-        <div>
-            {order.address.postCode}
-        </div>
-        <div>
-            {order.address.country}
-        </div>
-    </div>
-}
-
-function getStatus(order, languageVersion, possibleOrderStatuses) {
-    return <div className="border-2 border-violet-400">
-        <div>
-            {getMessage(languageVersion, "paymentMethod", LABELS)}
-            {getMessage(languageVersion, order.paymentMethod, LABELS)}
-        </div>
-        <div>
-            {getMessage(languageVersion, "orderStatus", LABELS)}
-            {getOrderStatus(order, languageVersion, possibleOrderStatuses)}
-        </div>
-    </div>
-}
-
 
 function getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selectedProductsIdsForReturn, setProductsIdsForReturn, products) {
     return <div className="border-t border-gray-200 px-4 py-6" hidden={!isReturnOrderSelected}>
@@ -182,58 +148,6 @@ const LABELS = [
         ]
     },
     {
-        "name": "address",
-        "values": [
-            {
-                "language": "english",
-                "value": "Arrival address"
-            },
-            {
-                "language": "polish",
-                "value": "Adres wysyłki"
-            }
-        ]
-    },
-    {
-        "name": "paymentMethod",
-        "values": [
-            {
-                "language": "english",
-                "value": "Payment method: "
-            },
-            {
-                "language": "polish",
-                "value": "Metoda płatności: "
-            }
-        ]
-    },
-    {
-        "name": "transfer",
-        "values": [
-            {
-                "language": "english",
-                "value": "Transfer"
-            },
-            {
-                "language": "polish",
-                "value": "Przelew"
-            }
-        ]
-    },
-    {
-        "name": "card",
-        "values": [
-            {
-                "language": "english",
-                "value": "Card"
-            },
-            {
-                "language": "polish",
-                "value": "Karta"
-            }
-        ]
-    },
-    {
         "name": "returnOrder",
         "values": [
             {
@@ -282,19 +196,6 @@ const LABELS = [
             {
                 "language": "polish",
                 "value": "Zaznacz problemy ze swoim zamówieniem"
-            }
-        ]
-    },
-    {
-        "name": "orderStatus",
-        "values": [
-            {
-                "language": "english",
-                "value": "Order status: "
-            },
-            {
-                "language": "polish",
-                "value": "Status zamówienia: "
             }
         ]
     }

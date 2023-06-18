@@ -1,7 +1,6 @@
 import getMessage from "../../common/LanguageVersionMessageFinder";
-import OrderProduct from "./OrderProduct";
 import {Link} from "react-router-dom";
-import getProductBySimpleProduct from "../../common/ProductRetriever";
+import getOrderProducts from "./OrderDataRetriever";
 
 export default function OrderSummary({order, products = [], languageVersion}) {
 
@@ -11,19 +10,6 @@ export default function OrderSummary({order, products = [], languageVersion}) {
             {getOrderTotal(order.totalPrice, languageVersion)}
         </div>
     </Link>
-}
-
-function getOrderProducts(order, products, languageVersion) {
-    return order.products.map(simpleProduct => getOrderProduct(simpleProduct, products, languageVersion))
-        .filter(simpleProduct => simpleProduct != null);
-}
-
-function getOrderProduct(simpleProduct, products, languageVersion) {
-    var product = getProductBySimpleProduct(simpleProduct, products);
-    if (product == null) {
-        return null;
-    }
-    return <OrderProduct product={product} quantity={simpleProduct.quantity} languageVersion={languageVersion}/>
 }
 
 function getOrderTotal(total, languageVersion) {

@@ -100,7 +100,7 @@ function App() {
                 <Route path="/myorders/:id" element={<OrderPage languageVersion={languageVersion} orders={orders}
                                                                 loggedUserEmail={loggedUserEmail}
                                                                 products={products}/>}/>
-                <Route path="/adminpanel" element={<AdminPanelPage languageVersion={languageVersion} isLoggedUserAdmin={isLoggedUserAdmin}/> }/>
+                <Route path="/adminpanel" element={<AdminPanelPage languageVersion={languageVersion} isLoggedUserAdmin={isLoggedUserAdmin} orders={orders} setOrders={setOrders} products={products}/> }/>
                 <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
             </Routes>
             <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}/>
@@ -234,11 +234,11 @@ function getLogoutButton(name, onLogoutButton = f => f) {
 
 function onRateProduct(id, rating, products, setProducts) {
     const newProducts = products.map(product => product.id === id ? {...product, rating} : product)
-        .map(product => product.id === id ? updatePhotoRatings(product, rating) : product);
+        .map(product => product.id === id ? updateProductRatings(product, rating) : product);
     setProducts(newProducts)
 }
 
-function updatePhotoRatings(product, rating) {
+function updateProductRatings(product, rating) {
     product.rating = rating;
     return product;
 }

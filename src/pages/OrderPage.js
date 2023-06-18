@@ -36,9 +36,9 @@ export default function OrderPage({languageVersion, orders, loggedUserEmail, pro
         <OrderSummary order={order} languageVersion={languageVersion} products={products}/>
         {getAddress(order, languageVersion)}
         {getStatus(order, languageVersion, possibleOrderStatuses)}
-        {getToggleButton(toggleReturnOrderSelection, languageVersion, "returnOrder", LABELS)}
+        {getToggleButton(toggleReturnOrderSelection, languageVersion, "returnOrder", LABELS, order.status !== "sent")}
         {getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selectedProductsIdsForReturn, setProductsIdsForReturn, products)}
-        {getToggleButton(toggleOrderProblemsSelection, languageVersion, "problemWithOrder", LABELS)}
+        {getToggleButton(toggleOrderProblemsSelection, languageVersion, "problemWithOrder", LABELS, order.status !== "sent")}
         {getComplaintForm(order, languageVersion, isOrderProblemsSelected, possibleOrderProblems, selectedOrderProblems, setSelectedOrderProblems)}
     </div>
 }

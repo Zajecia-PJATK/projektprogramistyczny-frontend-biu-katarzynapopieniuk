@@ -21,6 +21,8 @@ function updateStatus(order, newStatus) {
 
 function getSingleOrderManagementForm(languageVersion, order, products, possibleOrderStatuses, modifyOrderStatus) {
     return <div className="border-4 border-violet-400">
+        {wrapInBasicDiv(`Id: ${order.id}`)}
+        {wrapInBasicDiv(`Email: ${order.userEmail}`)}
         {getOrderProducts(order, products, languageVersion)}
         {getAddress(order, languageVersion)}
         {getStatus(order, languageVersion, possibleOrderStatuses)}
@@ -46,5 +48,11 @@ function getButtonForChangeStatus(languageVersion, orderId, nextStatus, modifyOr
                 {getMessage(languageVersion, nextStatus, possibleOrderStatuses)}
             </button>
         </div>
+    </div>
+}
+
+function wrapInBasicDiv(content) {
+    return <div className="border-2 border-violet-100">
+        {content}
     </div>
 }

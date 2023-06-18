@@ -6,8 +6,9 @@ import React, {useReducer} from "react";
 import {useProductCategories} from "../components/ProductCategoriesProvider";
 import getToggleButton from "../common/ToggleButton";
 import OrdersManager from "../components/orders/OrdersManager";
+import ProductManager from "../components/ProductManager";
 
-export default function AdminPanelPage({languageVersion, isLoggedUserAdmin, orders, setOrders, products}) {
+export default function AdminPanelPage({languageVersion, isLoggedUserAdmin, orders, setOrders, products, setProducts}) {
     const { colors, setColors } = useProductColors();
     const { productCategories, setProductCategories } = useProductCategories();
     const [colorFiltersConfig] = useInput(JSON.stringify(colors, undefined, 4));
@@ -15,6 +16,7 @@ export default function AdminPanelPage({languageVersion, isLoggedUserAdmin, orde
     const [isColorFilterConfigSelected, toggleColorFilterConfigSelection] = useReducer(isColorFilterConfigSelected => !isColorFilterConfigSelected, false);
     const [isProductCategoriesConfigSelected, toggleProductCategoriesConfigSelection] = useReducer(isProductCategoriesConfigSelected => !isProductCategoriesConfigSelected, false);
     const [isOrderManagementSelected, toggleOrderManagementSelection] = useReducer(isOrderManagementSelected => !isOrderManagementSelected, false);
+    const [isProductManagementSelected, toggleProductManagementSelection] = useReducer(isProductManagementSelected => !isProductManagementSelected, false);
 
     if(!isLoggedUserAdmin) {
         return <NotFoundPage languageVersion={languageVersion}/>
@@ -45,10 +47,6 @@ export default function AdminPanelPage({languageVersion, isLoggedUserAdmin, orde
 
         setProductCategories(newConfig);
     }
-    /*
-    Panel administracyjny - aplikacja powinna umożliwiać administratorowi zarządzanie zamówieniami, klientami, produktami, kategoriami
-    i innymi aspektami sklepu internetowego. Panel administracyjny powinien być zabezpieczony hasłem i być dostępny tylko dla uprawnionych użytkowników.
-     */
 
     return <div className="p-4 sm:ml-64">
         {getToggleButton(toggleColorFilterConfigSelection, languageVersion, "colorConfig", LABELS)}
@@ -58,6 +56,10 @@ export default function AdminPanelPage({languageVersion, isLoggedUserAdmin, orde
         {getToggleButton(toggleOrderManagementSelection, languageVersion, "orderManagement", LABELS)}
         <div hidden={!isOrderManagementSelected}>
             <OrdersManager orders={orders} products={products} setOrders={setOrders} languageVersion={languageVersion}/>
+        </div>
+        {getToggleButton(toggleProductManagementSelection, languageVersion, "productManagement", LABELS)}
+        <div hidden={!isProductManagementSelected}>
+            <ProductManager languageVersion={languageVersion} products={products} setProducts={setProducts}/>
         </div>
     </div>
 }
@@ -178,6 +180,19 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Zarządzanie zamówieniami"
+            }
+        ]
+    },
+    {
+        "name" : "productManagement",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Product management"
+            },
+            {
+                "language" : "polish",
+                "value": "Zarządzanie produktami"
             }
         ]
     }

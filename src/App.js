@@ -100,7 +100,7 @@ function App() {
                 <Route path="/myorders/:id" element={<OrderPage languageVersion={languageVersion} orders={orders}
                                                                 loggedUserEmail={loggedUserEmail}
                                                                 products={products}/>}/>
-                <Route path="/adminpanel" element={<AdminPanelPage languageVersion={languageVersion} isLoggedUserAdmin={isLoggedUserAdmin} orders={orders} setOrders={setOrders} products={products}/> }/>
+                <Route path="/adminpanel" element={<AdminPanelPage languageVersion={languageVersion} isLoggedUserAdmin={isLoggedUserAdmin} orders={orders} setOrders={setOrders} products={products} setProducts={setProducts}/> }/>
                 <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
             </Routes>
             <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}/>

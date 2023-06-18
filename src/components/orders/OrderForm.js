@@ -40,7 +40,7 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
                 .required(getMessage(languageVersion, "required", LABELS)),
         }),
         onSubmit: values => {
-           onAddOrder(values, cart, addOrder, loggedUserEmail, products);
+           onAddOrder(values, cart, addOrder, loggedUserEmail, products, getInitialStatusDependingOnPaymentMethod(paymentMethod));
             setCart([]);
         },
     });
@@ -131,7 +131,7 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
                         </div>
 
                         <div hidden={paymentMethod !== "card"}>
-                            <CardPaymentForm/>
+                            <CardPaymentForm paymentMethod={paymentMethod}/>
                         </div>
 
 
@@ -156,7 +156,7 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
     );
 };
 
-function onAddOrder(data, cart, addOrder, loggedUserEmail, products) {
+function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status) {
     function createOrderProduct(product) {
         return {
             "id": product.id,
@@ -180,11 +180,20 @@ function onAddOrder(data, cart, addOrder, loggedUserEmail, products) {
         "products": orderProducts,
         "promoCodeId": null,
         "totalPrice": getCartTotalPrice(cart, products),
-        "paymentMethod": "card"
+        "paymentMethod": "card",
+        "status": status
     }
 
     addOrder(newOrder);
     return "Order created successfully";
+}
+
+function getInitialStatusDependingOnPaymentMethod(paymentMethod) {
+    if(paymentMethod === "card") {
+        return "inProcess";
+    }
+
+    return "waitingForPayment";
 }
 
 const LABELS = [

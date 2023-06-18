@@ -7,7 +7,7 @@ import {MDBCard,
 import React from "react";
 import getMessage from "../../common/LanguageVersionMessageFinder";
 
-export default function CardPaymentForm({languageVersion}) {
+export default function CardPaymentForm({languageVersion, paymentMethod}) {
     return <MDBContainer fluid className="py-5">
         <MDBRow className="d-flex justify-content-center">
             <MDBCol md="9" lg="7" xl="5">
@@ -23,6 +23,7 @@ export default function CardPaymentForm({languageVersion}) {
                                 placeholder="1234 5678 1234 5678"
                                 wrapperClass="mb-3"
                                 className="bg-violet-50"
+                                required={paymentMethod === "card"}
                             />
                             <MDBRow className="mb-3">
                                 <MDBCol size="6">
@@ -33,6 +34,7 @@ export default function CardPaymentForm({languageVersion}) {
                                         placeholder="MM/YYYY"
                                         wrapperClass="mb-3"
                                         className="bg-violet-50"
+                                        required={paymentMethod === "card"}
                                     />
                                 </MDBCol>
                                 <MDBCol size="6">
@@ -43,6 +45,7 @@ export default function CardPaymentForm({languageVersion}) {
                                         placeholder="CVV"
                                         wrapperClass="mb-3"
                                         className="bg-violet-50"
+                                        required={paymentMethod === "card"}
                                     />
                                 </MDBCol>
                             </MDBRow>

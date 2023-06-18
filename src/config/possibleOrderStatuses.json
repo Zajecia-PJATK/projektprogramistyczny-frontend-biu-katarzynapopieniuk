@@ -10,6 +10,9 @@
         "language": "polish",
         "value": "Wysłane"
       }
+    ],
+    "next": [
+      "returned"
     ]
   },
   {
@@ -23,6 +26,10 @@
         "language": "polish",
         "value": "W trakcie przetwarzania"
       }
+    ],
+    "next": [
+      "sent",
+      "cancelled"
     ]
   },
   {
@@ -36,7 +43,8 @@
         "language": "polish",
         "value": "Zwrócone"
       }
-    ]
+    ],
+    "next": []
   },
   {
     "name": "waitingForPayment",
@@ -49,6 +57,24 @@
         "language": "polish",
         "value": "Oczekiwanie na zapłatę"
       }
+    ],
+    "next": [
+      "inProcess",
+      "cancelled"
     ]
+  },
+  {
+    "name": "cancelled",
+    "values": [
+      {
+        "language": "english",
+        "value": "Cancelled"
+      },
+      {
+        "language": "polish",
+        "value": "Anulowane"
+      }
+    ],
+    "next": []
   }
 ]

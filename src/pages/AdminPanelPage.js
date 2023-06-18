@@ -4,6 +4,7 @@ import {useInput} from "../common/InputUtils";
 import getMessage from "../common/LanguageVersionMessageFinder";
 import React, {useReducer} from "react";
 import {useProductCategories} from "../components/ProductCategoriesProvider";
+import getToggleButton from "../common/ToggleButton";
 
 export default function AdminPanelPage({languageVersion, isLoggedUserAdmin}) {
     const { colors, setColors } = useProductColors();
@@ -48,44 +49,22 @@ export default function AdminPanelPage({languageVersion, isLoggedUserAdmin}) {
      */
 
     return <div className="p-4 sm:ml-64">
-        <button id="bordered-radio-2" type="button"
-                className="w-full h-10 border-2 border-violet-400 bg-violet-50"
-                onClick={toggleColorFilterConfigSelection}>
-            {getMessage(languageVersion, "colorConfig", LABELS)}
-        </button>
-        {getColorConfigForm(languageVersion, isColorFilterConfigSelected, colorFiltersConfig, onChangeColorsConfig)}
-        <button id="bordered-radio-2" type="button"
-                className="w-full h-10 border-2 border-violet-400 bg-violet-50"
-                onClick={toggleProductCategoriesConfigSelection}>
-            {getMessage(languageVersion, "shopCategoriesConfig", LABELS)}
-        </button>
-        {getShopCategoriesConfigForm(languageVersion, isProductCategoriesConfigSelected, productCategoriesConfig, onChangeProductCategoriesConfig)}
+        {getToggleButton(toggleColorFilterConfigSelection, languageVersion, "colorConfig", LABELS)}
+        {getConfigForm(languageVersion, isColorFilterConfigSelected, colorFiltersConfig, onChangeColorsConfig)}
+        {getToggleButton(toggleProductCategoriesConfigSelection, languageVersion, "shopCategoriesConfig", LABELS)}
+        {getConfigForm(languageVersion, isProductCategoriesConfigSelected, productCategoriesConfig, onChangeProductCategoriesConfig)}
     </div>
 }
 
-function getColorConfigForm(languageVersion, isColorFilterConfigSelected, colorFiltersConfig, onChangeColorsConfig) {
-    return <div hidden={!isColorFilterConfigSelected}>
-        <textarea {...colorFiltersConfig}
-                  id="comment" rows="10"
-                  className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none bg-amber-50"
-                  placeholder="Write a comment..." required></textarea>
-            <button type="button"
-                    className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-violet-100 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800"
-                    onClick={onChangeColorsConfig}>
-                {getMessage(languageVersion, "changeColorsConfig", LABELS)}
-            </button>
-        </div>
-}
-
-function getShopCategoriesConfigForm(languageVersion, isShopCategoriesConfigSelected, shopCategoriesConfig, onChangeShopCategoriesConfig) {
-    return <div hidden={!isShopCategoriesConfigSelected}>
-        <textarea {...shopCategoriesConfig}
+function getConfigForm(languageVersion, isSelected, config, onSelectionChange) {
+    return <div hidden={!isSelected}>
+        <textarea {...config}
                   id="comment" rows="10"
                   className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none bg-amber-50"
                   placeholder="Write a comment..." required></textarea>
         <button type="button"
                 className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-violet-100 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800"
-                onClick={onChangeShopCategoriesConfig}>
+                onClick={onSelectionChange}>
             {getMessage(languageVersion, "changeShopCategoriesConfig", LABELS)}
         </button>
     </div>

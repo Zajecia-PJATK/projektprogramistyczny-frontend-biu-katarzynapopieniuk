@@ -8,6 +8,7 @@ import possibleOrderProblemsData from "../config/possibleOrderProblems.json";
 import handleCheckBoxSelectionChange from "../common/CheckBoxOnChangeHandler";
 import getOrderStatus from "../common/OrderStatusRetriever";
 import possibleOrderStatusesData from "../config/possibleOrderStatuses.json";
+import getToggleButton from "../common/ToggleButton";
 
 export default function OrderPage({languageVersion, orders, loggedUserEmail, products}) {
     const {id} = useParams();
@@ -35,17 +36,9 @@ export default function OrderPage({languageVersion, orders, loggedUserEmail, pro
         <OrderSummary order={order} languageVersion={languageVersion} products={products}/>
         {getAddress(order, languageVersion)}
         {getStatus(order, languageVersion, possibleOrderStatuses)}
-        <button id="bordered-radio-2" type="button" value="card" name="bordered-radio"
-                className="w-full h-10 border-2 border-violet-400 bg-violet-50"
-                onClick={toggleReturnOrderSelection}>
-            {getMessage(languageVersion, "returnOrder", LABELS)}
-        </button>
+        {getToggleButton(toggleReturnOrderSelection, languageVersion, "returnOrder", LABELS)}
         {getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selectedProductsIdsForReturn, setProductsIdsForReturn, products)}
-        <button id="bordered-radio-2" type="button" value="card" name="bordered-radio"
-                className="w-full h-10 border-2 border-violet-400 bg-violet-50"
-                onClick={toggleOrderProblemsSelection}>
-            {getMessage(languageVersion, "problemWithOrder", LABELS)}
-        </button>
+        {getToggleButton(toggleOrderProblemsSelection, languageVersion, "problemWithOrder", LABELS)}
         {getComplaintForm(order, languageVersion, isOrderProblemsSelected, possibleOrderProblems, selectedOrderProblems, setSelectedOrderProblems)}
     </div>
 }

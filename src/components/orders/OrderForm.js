@@ -6,9 +6,11 @@ import CardPaymentForm from "./CardPaymentForm";
 import NotFoundPage from "../../pages/NotFoundPage";
 import getCartTotalPrice from "../../common/CartTotalPriceCalculator";
 import {v4 as uuidv4} from 'uuid';
+import {Link} from "react-router-dom";
 
 export default function OrderForm({languageVersion, cart=[], products = [], addOrder, loggedUserEmail, setCart}) {
     const [paymentMethod, setPaymentMethod] = useState("card");
+    const [newOrderId, setNewOrderId] = useState("");
 
     function onPaymentMethodChange(event) {
         setPaymentMethod(event.target.value);
@@ -40,11 +42,24 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
                 .required(getMessage(languageVersion, "required", LABELS)),
         }),
         onSubmit: values => {
-           onAddOrder(values, cart, addOrder, loggedUserEmail, products, getInitialStatusDependingOnPaymentMethod(paymentMethod));
+           var newOrderId = onAddOrder(values, cart, addOrder, loggedUserEmail, products, getInitialStatusDependingOnPaymentMethod(paymentMethod));
             setCart([]);
+            setNewOrderId(newOrderId);
         },
     });
-    if(loggedUserEmail === "") {
+
+    if(newOrderId !== "") {
+        return <Link to={`/myorders/${newOrderId}`}>
+            <div className="flex space-x-4 mb-5 text-sm font-medium ml-5  items-center justify-center px-2">
+                    <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
+                            type="button">
+                        {getMessage(languageVersion, "goToOrder", LABELS)}
+                    </button>
+            </div>
+        </Link>
+    }
+
+    if(loggedUserEmail === "" || cart.length === 0) {
         return <NotFoundPage languageVersion={languageVersion}/>
     }
 
@@ -134,11 +149,13 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
                             <CardPaymentForm paymentMethod={paymentMethod}/>
                         </div>
 
-
                         <button type="submit"
                                 className="w-full text-center py-3 rounded bg-violet-600 text-white hover:bg-violet-800 focus:outline-none my-1">
                             {getMessage(languageVersion, "checkout", LABELS)}
                         </button>
+
+
+
                     </form>
 
                     <div className="text-center text-sm text-grey-dark mt-4">
@@ -185,7 +202,7 @@ function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status) {
     }
 
     addOrder(newOrder);
-    return "Order created successfully";
+    return newOrder.id;
 }
 
 function getInitialStatusDependingOnPaymentMethod(paymentMethod) {
@@ -363,6 +380,19 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Pole wymagane"
+            }
+        ]
+    },
+    {
+        "name" : "goToOrder",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Go to order"
+            },
+            {
+                "language" : "polish",
+                "value": "Idź do zamówienia"
             }
         ]
     }

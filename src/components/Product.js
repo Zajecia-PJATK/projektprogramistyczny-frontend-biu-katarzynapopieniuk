@@ -54,69 +54,70 @@ export default function Product({product, languageVersion, onAddProduct, onRate 
 }
 
 function getProductName(product, languageVersion) {
-    return product.name.filter(name => name.language==languageVersion).map(name => name.value)[0];
+    return product.name.filter(name => name.language === languageVersion).map(name => name.value)[0];
 }
 
 function getProductDescription(product, languageVersion) {
-    return product.description.filter(name => name.language==languageVersion).map(name => name.value)[0];
+    return product.description.filter(name => name.language === languageVersion).map(name => name.value)[0];
 }
 
 function getProductColor(product, languageVersion) {
-    return product.color.filter(name => name.language==languageVersion).map(name => name.value)[0];
+    return product.color.filter(name => name.language === languageVersion).map(name => name.value)[0];
 }
 
 function getProductCategory(product, languageVersion) {
-    return product.category.filter(name => name.language==languageVersion).map(name => name.value)[0];
+    return product.category.filter(name => name.language === languageVersion).map(name => name.value)[0];
 }
+
 const MESSAGES = [
     {
-        "name" : "addToBag",
+        "name": "addToBag",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "Add to cart"
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "Dodaj do koszyka"
             }
         ]
     },
     {
-        "name" : "averageRating",
+        "name": "averageRating",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "average rating: "
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "średnia ocena: "
             }
         ]
     },
     {
-        "name" : "color",
+        "name": "color",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "color: "
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "kolor: "
             }
         ]
     },
     {
-        "name" : "category",
+        "name": "category",
         "values": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": "category: "
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": "kategoria: "
             }
         ]

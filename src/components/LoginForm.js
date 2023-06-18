@@ -15,7 +15,9 @@ export default function LoginForm({languageVersion, accounts, setLoggetUserEmail
                 .required(getMessage(languageVersion, "required", LABELS))
         }),
         onSubmit: values => {
-            alert(JSON.stringify(tryToLogIn(values, accounts, setLoggetUserEmail, languageVersion), null, 2));
+            if(!tryToLogIn(values, accounts, setLoggetUserEmail)) {
+                alert(getMessage(languageVersion, "wrongLoginData", LABELS));
+            }
         },
     });
     return (
@@ -66,15 +68,15 @@ export default function LoginForm({languageVersion, accounts, setLoggetUserEmail
     );
 };
 
-function tryToLogIn(data, accounts, setLoggetUserEmail, languageVersion) {
+function tryToLogIn(data, accounts, setLoggetUserEmail) {
     var existingAccount = accounts.filter(account => account.email === data.email)
         .filter(account => account.password === SHA256(data.password).toString());
     if(existingAccount.length > 0) {
         var account = existingAccount[0];
         setLoggetUserEmail(account.email);
-        return getMessage(languageVersion, "successfulLogin", LABELS);
+        return true;
     } else {
-        return getMessage(languageVersion, "wrongLoginData", LABELS);
+        return false;
     }
 }
 
@@ -154,19 +156,6 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Niepoprawne dane logowania"
-            }
-        ]
-    },
-    {
-        "name" : "successfulLogin",
-        "values": [
-            {
-                "language" : "english",
-                "value": "Hello!"
-            },
-            {
-                "language" : "polish",
-                "value": "Witaj!"
             }
         ]
     },

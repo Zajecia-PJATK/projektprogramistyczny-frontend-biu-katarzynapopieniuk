@@ -89,7 +89,7 @@ function App() {
                 <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts}
                                                            setAccounts={setAccounts}/>}/>
                 <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts}
-                                                         setLoggetUserEmail={setLoggedUserEmail}/>}/>
+                                                         setLoggetUserEmail={setLoggedUserEmail} loggedUserEmail={loggedUserEmail}/>}/>
                 <Route path="/checkout"
                        element={<CheckoutPage cart={cart} products={products} languageVersion={languageVersion}
                                               addOrder={addOrder} loggedUserEmail={loggedUserEmail}

@@ -13,20 +13,20 @@ export default function SignupForm({languageVersion, accounts, setAccounts = f =
         },
         validationSchema: Yup.object({
             firstName: Yup.string()
-                .min(2, 'Must be at least 2 characters')
-                .max(15, 'Must be at most 15 characters')
+                .min(2, getMinimumLengthMessage(2, languageVersion))
+                .max(15, getMaximumLengthMessage(15, languageVersion))
                 .required(getMessage(languageVersion, "required", LABELS)),
             lastName: Yup.string()
-                .min(2, 'Must be at least 2 characters')
-                .max(20, 'Must be at most 20 characters')
+                .min(2, getMinimumLengthMessage(2, languageVersion))
+                .max(20, getMaximumLengthMessage(20, languageVersion))
                 .required(getMessage(languageVersion, "required", LABELS)),
-            email: Yup.string().email('Invalid email address').required(getMessage(languageVersion, "required", LABELS)),
+            email: Yup.string().email(getMessage(languageVersion, "invalidEmail", LABELS)).required(getMessage(languageVersion, "required", LABELS)),
             password: Yup.string()
-                .min(8, 'Password must be at least 8 characters')
-                .max(20, 'Must be at most 20 characters')
+                .min(8, getMinimumLengthMessage(8, languageVersion))
+                .max(20, getMaximumLengthMessage(20, languageVersion))
                 .required(getMessage(languageVersion, "required", LABELS)),
             passwordConfirmation: Yup.string()
-                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                .oneOf([Yup.ref('password'), null], getMessage(languageVersion, "passwordsMustMatch", LABELS))
         }),
         onSubmit: values => {
             var message = addAccount(values, accounts, setAccounts);
@@ -143,6 +143,20 @@ function addAccount(data, accounts, setAccounts) {
 
     setAccounts([...accounts, newAccount]);
     return "Account created successfully";
+}
+
+function getMinimumLengthMessage(length, languageVersion) {
+    if(languageVersion === "english") {
+        return `Must be at least ${length} characters`;
+    }
+    return `Musi mieć przynajmniej ${length} znaków`;
+}
+
+function getMaximumLengthMessage(length, languageVersion) {
+    if(languageVersion === "english") {
+        return `Must be at most ${length} characters`;
+    }
+    return `Musi mieć co najwyżej ${length} znaków`;
 }
 
 const LABELS = [
@@ -299,6 +313,32 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Pole wymagane"
+            }
+        ]
+    },
+    {
+        "name" : "invalidEmail",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Invalid email address"
+            },
+            {
+                "language" : "polish",
+                "value": "Niepoprawny adres email"
+            }
+        ]
+    },
+    {
+        "name" : "passwordsMustMatch",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Passwords must match"
+            },
+            {
+                "language" : "polish",
+                "value": "Hasła muszą być takie same"
             }
         ]
     }

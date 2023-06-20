@@ -25,20 +25,20 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
         },
         validationSchema: Yup.object({
             street: Yup.string()
-                .min(2, 'Must be at least 2 characters')
-                .max(15, 'Must be at most 15 characters')
+                .min(2, getMinimumLengthMessage(2, languageVersion))
+                .max(15, getMaximumLengthMessage(15, languageVersion))
                 .required(getMessage(languageVersion, "required", LABELS)),
             city: Yup.string()
-                .min(2, 'Must be at least 2 characters')
-                .max(20, 'Must be at most 20 characters')
+                .min(2, getMinimumLengthMessage(2, languageVersion))
+                .max(20, getMaximumLengthMessage(20, languageVersion))
                 .required(getMessage(languageVersion, "required", LABELS)),
             country: Yup.string()
-                .min(2, 'Must be at least 2 characters')
-                .max(20, 'Must be at most 20 characters')
+                .min(2, getMinimumLengthMessage(2, languageVersion))
+                .max(20, getMaximumLengthMessage(20, languageVersion))
                 .required(getMessage(languageVersion, "required", LABELS)),
             postCode: Yup.string()
-                .min(5, 'Must be at least 5 characters')
-                .max(7, 'Must be at most 7 characters')
+                .min(5, getMinimumLengthMessage(2, languageVersion))
+                .max(7, getMaximumLengthMessage(7, languageVersion))
                 .required(getMessage(languageVersion, "required", LABELS)),
         }),
         onSubmit: values => {
@@ -172,6 +172,19 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
         </div>
     );
 };
+function getMinimumLengthMessage(length, languageVersion) {
+    if(languageVersion === "english") {
+        return `Must be at least ${length} characters`;
+    }
+    return `Musi mieć przynajmniej ${length} znaków`;
+}
+
+function getMaximumLengthMessage(length, languageVersion) {
+    if(languageVersion === "english") {
+        return `Must be at most ${length} characters`;
+    }
+    return `Musi mieć co najwyżej ${length} znaków`;
+}
 
 function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status) {
     function createOrderProduct(product) {

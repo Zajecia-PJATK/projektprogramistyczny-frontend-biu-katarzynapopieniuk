@@ -15,6 +15,7 @@ export default function CommentSection({languageVersion, user}) {
             body: line.value
         });
         setReviews([...reviews, newReview]);
+        resetLine();
     }
 
     return <section className="bg-white dark:bg-gray-900 py-8 lg:py-16">

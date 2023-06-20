@@ -59,7 +59,7 @@ function getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selec
             </div>
         </div>
 
-        <Link to="/">
+        <Link to={`/returnPolicy/${order.id}`}>
             <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
                     type="button">
                 {getMessage(languageVersion, "returnOrder", LABELS)}

@@ -76,5 +76,33 @@
       }
     ],
     "next": []
+  },
+  {
+    "name": "problemReported",
+    "values": [
+      {
+        "language": "english",
+        "value": "Client reported problems"
+      },
+      {
+        "language": "polish",
+        "value": "Klient zgłosił problem z zamówieniem"
+      }
+    ],
+    "next": ["problemSolved"]
+  },
+  {
+    "name": "problemSolved",
+    "values": [
+      {
+        "language": "english",
+        "value": "Client's problem solved'"
+      },
+      {
+        "language": "polish",
+        "value": "Problem z zamówieniem rozwiązany"
+      }
+    ],
+    "next": []
   }
 ]

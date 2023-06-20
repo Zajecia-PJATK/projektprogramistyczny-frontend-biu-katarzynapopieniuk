@@ -19,6 +19,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
 import OrderPage from "./pages/OrderPage";
 import AdminPanelPage from "./pages/AdminPanelPage";
+import ReturnPolicyPage from "./pages/ReturnPolicyPage";
 
 function App() {
     const [products, setProducts] = useState(productsData);
@@ -102,6 +103,7 @@ function App() {
                                                                 products={products}/>}/>
                 <Route path="/adminpanel" element={<AdminPanelPage languageVersion={languageVersion} isLoggedUserAdmin={isLoggedUserAdmin} orders={orders} setOrders={setOrders} products={products} setProducts={setProducts}/> }/>
                 <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
+                <Route path="/returnPolicy/:id" element={<ReturnPolicyPage languageVersion={languageVersion}/> }/>
             </Routes>
             <SideBar languageVersion={languageVersion} searchParams={searchParams} setSearchParams={setSearchParams}/>
         </div>

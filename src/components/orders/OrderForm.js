@@ -198,7 +198,8 @@ function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status) {
         "promoCodeId": null,
         "totalPrice": getCartTotalPrice(cart, products),
         "paymentMethod": "card",
-        "status": status
+        "status": status,
+        "reportedProblems": []
     }
 
     addOrder(newOrder);

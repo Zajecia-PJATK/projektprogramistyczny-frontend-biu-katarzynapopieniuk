@@ -9,8 +9,10 @@ import handleCheckBoxSelectionChange from "../common/CheckBoxOnChangeHandler";
 import possibleOrderStatusesData from "../config/possibleOrderStatuses.json";
 import getToggleButton from "../common/ToggleButton";
 import {getAddress, getStatus} from "../components/orders/OrderDataRetriever";
+import {useInput} from "../common/InputUtils";
+import getProblemsIfReported from "../common/OrderProblemsRetriever";
 
-export default function OrderPage({languageVersion, orders, loggedUserEmail, products}) {
+export default function OrderPage({languageVersion, orders, loggedUserEmail, products, setOrders}) {
     const {id} = useParams();
     const [isReturnOrderSelected, toggleReturnOrderSelection] = useReducer(isReturnOrderSelected => !isReturnOrderSelected, false);
     const [isOrderProblemsSelected, toggleOrderProblemsSelection] = useReducer(isOrderProblemsSelected => !isOrderProblemsSelected, false);
@@ -18,6 +20,7 @@ export default function OrderPage({languageVersion, orders, loggedUserEmail, pro
     const [possibleOrderProblems] = useState(possibleOrderProblemsData);
     const [selectedOrderProblems, setSelectedOrderProblems] = useState([]);
     const [possibleOrderStatuses] = useState(possibleOrderStatusesData);
+    const [complaintMessage] = useInput("");
 
     if (loggedUserEmail === "") {
         return <NotFoundPage/>
@@ -32,14 +35,31 @@ export default function OrderPage({languageVersion, orders, loggedUserEmail, pro
 
     var order = userOrders[0];
 
+    function addComplaint(o) {
+        const newProblem = {
+            "type" : selectedOrderProblems,
+            "description": complaintMessage.value
+        }
+        var oldProblems = o.reportedProblems;
+        o.reportedProblems = [...oldProblems, newProblem];
+        o.status = "problemReported"
+        return o;
+    }
+
+    function onComplain() {
+        const newOrders = orders.map(o => o.id === order.id ? addComplaint(o) : o);
+        setOrders(newOrders);
+    }
+
     return <div className="p-4 sm:ml-64">
         <OrderSummary order={order} languageVersion={languageVersion} products={products}/>
         {getAddress(order, languageVersion)}
         {getStatus(order, languageVersion, possibleOrderStatuses)}
-        {getToggleButton(toggleReturnOrderSelection, languageVersion, "returnOrder", LABELS, order.status !== "sent")}
+        {getProblemsIfReported(order, languageVersion, possibleOrderProblems)}
+        {getToggleButton(toggleReturnOrderSelection, languageVersion, "returnOrder", LABELS, idOrderStatusPossibleToComplain(order))}
         {getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selectedProductsIdsForReturn, setProductsIdsForReturn, products)}
-        {getToggleButton(toggleOrderProblemsSelection, languageVersion, "problemWithOrder", LABELS, order.status !== "sent")}
-        {getComplaintForm(order, languageVersion, isOrderProblemsSelected, possibleOrderProblems, selectedOrderProblems, setSelectedOrderProblems)}
+        {getToggleButton(toggleOrderProblemsSelection, languageVersion, "problemWithOrder", LABELS, idOrderStatusPossibleToComplain(order))}
+        {getComplaintForm(order, languageVersion, isOrderProblemsSelected, possibleOrderProblems, selectedOrderProblems, setSelectedOrderProblems, complaintMessage, onComplain)}
     </div>
 }
 
@@ -47,7 +67,6 @@ function getOrderForUser(orders, loggedUserEmail, id) {
     return orders.filter(order => order.userEmail === loggedUserEmail)
         .filter(order => order.id === id);
 }
-
 function getReturnOrderForm(order, languageVersion, isReturnOrderSelected, selectedProductsIdsForReturn, setProductsIdsForReturn, products) {
     return <div className="border-t border-gray-200 px-4 py-6" hidden={!isReturnOrderSelected}>
         <h3 className="-mx-2 -my-3 flex w-full items-center px-2 py-3 text-gray-900 font-medium">
@@ -86,7 +105,7 @@ function getProductName(product, languageVersion) {
     return product.name.filter(name => name.language === languageVersion).map(name => name.value)[0];
 }
 
-function getComplaintForm(order, languageVersion, isOrderProblemsSelected, possibleOrderProblems, selectedOrderProblems, setSelectedOrderProblems) {
+function getComplaintForm(order, languageVersion, isOrderProblemsSelected, possibleOrderProblems, selectedOrderProblems, setSelectedOrderProblems, complaintMessage, onComplain) {
     return <div className="border-t border-gray-200 px-4 py-6" hidden={!isOrderProblemsSelected}>
         <h3 className="-mx-2 -my-3 flex w-full items-center px-2 py-3 text-gray-900 font-medium">
             {getMessage(languageVersion, "markOrderProblems", LABELS)}
@@ -96,10 +115,18 @@ function getComplaintForm(order, languageVersion, isOrderProblemsSelected, possi
                 {possibleOrderProblems.map(problem => getOrderProblemCheckbox(problem, languageVersion, selectedOrderProblems, setSelectedOrderProblems))}
             </div>
         </div>
+        <h3 className="-mx-2 -my-3 flex w-full items-center px-2 py-3 text-gray-900 font-medium pt-6">
+            {getMessage(languageVersion, "describeYourProblem", LABELS)}
+        </h3>
+        <textarea {...complaintMessage}
+                  id="comment" rows="6"
+                  className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none bg-amber-50"
+                  placeholder="..." required></textarea>
 
         <Link to="/">
             <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
-                    type="button">
+                    type="button"
+                    onClick={onComplain}>
                 {getMessage(languageVersion, "problemWithOrder", LABELS)}
             </button>
         </Link>
@@ -118,6 +145,10 @@ function getOrderProblemCheckbox(problem, languageVersion, selectedOrderProblems
         <label htmlFor="filter-mobile-color-5"
                className="ml-3 min-w-0 flex">{getMessage(languageVersion, problem.name, possibleOrderProblemsData)}</label>
     </div>
+}
+
+function idOrderStatusPossibleToComplain(order) {
+    return order.status !== "sent" && order.status !== "problemSolved";
 }
 
 const LABELS = [
@@ -196,6 +227,19 @@ const LABELS = [
             {
                 "language": "polish",
                 "value": "Zaznacz problemy ze swoim zamówieniem"
+            }
+        ]
+    },
+    {
+        "name": "describeYourProblem",
+        "values": [
+            {
+                "language": "english",
+                "value": "Describe your problem."
+            },
+            {
+                "language": "polish",
+                "value": "Opisz swój problem."
             }
         ]
     }

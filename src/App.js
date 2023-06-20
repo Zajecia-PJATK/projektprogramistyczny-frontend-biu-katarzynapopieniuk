@@ -100,7 +100,8 @@ function App() {
                                                                products={products}/>}/>
                 <Route path="/myorders/:id" element={<OrderPage languageVersion={languageVersion} orders={orders}
                                                                 loggedUserEmail={loggedUserEmail}
-                                                                products={products}/>}/>
+                                                                products={products}
+                                                                setOrders={setOrders}/>}/>
                 <Route path="/adminpanel" element={<AdminPanelPage languageVersion={languageVersion} isLoggedUserAdmin={isLoggedUserAdmin} orders={orders} setOrders={setOrders} products={products} setProducts={setProducts}/> }/>
                 <Route path="*" element={<NotFoundPage languageVersion={languageVersion}/>}/>
                 <Route path="/returnPolicy/:id" element={<ReturnPolicyPage languageVersion={languageVersion}/> }/>

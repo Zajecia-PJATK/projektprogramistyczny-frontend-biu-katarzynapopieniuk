@@ -19,6 +19,68 @@
     "promoCodeId": null,
     "totalPrice": 200,
     "paymentMethod": "card",
-    "status": "sent"
+    "status": "sent",
+    "reportedProblems": [
+    ]
+  },
+  {
+    "id": "1234d1a4-a9c6-41bf-9d02-df5734c829a4",
+    "userEmail": "jan.kowalski@gmail.com",
+    "address": {
+      "street": "Wezuwiusza 10/23",
+      "city": "Katowice",
+      "country": "Polska",
+      "postcode": "00-007"
+    },
+    "products": [
+      {
+        "id": "0175d1f0-a8c6-41bf-8d02-df5734d829a4",
+        "quantity": 2,
+        "price": 200,
+        "usedCouponId": null
+      }
+    ],
+    "promoCodeId": null,
+    "totalPrice": 200,
+    "paymentMethod": "card",
+    "status": "problemReported",
+    "reportedProblems": [
+      {
+        "type": ["itemDamaged"],
+        "description": "Product arrived damaged. Please send me a new item."
+      }
+    ]
+  },
+  {
+    "id": "asdf12-a9c6-41bf-9d02-df5734c829a4",
+    "userEmail": "jan.kowalski@gmail.com",
+    "address": {
+      "street": "Wezuwiusza 10/23",
+      "city": "Katowice",
+      "country": "Polska",
+      "postcode": "00-007"
+    },
+    "products": [
+      {
+        "id": "0175d1f0-a8c6-41bf-8d02-df5734d829a4",
+        "quantity": 2,
+        "price": 200,
+        "usedCouponId": null
+      }
+    ],
+    "promoCodeId": null,
+    "totalPrice": 200,
+    "paymentMethod": "card",
+    "status": "problemSolved",
+    "reportedProblems": [
+      {
+        "type": ["itemDamaged"],
+        "description": "Product arrived damaged. Please send me a new item."
+      },
+      {
+        "type": ["itemDamaged"],
+        "description": "Product arrived damaged again. Please send me a new item."
+      }
+    ]
   }
 ]

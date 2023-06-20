@@ -2,16 +2,19 @@ import {useState} from "react";
 import possibleOrderStatusesData from "../../config/possibleOrderStatuses.json";
 import getOrderProducts, {getAddress, getStatus} from "./OrderDataRetriever";
 import getMessage from "../../common/LanguageVersionMessageFinder";
+import possibleOrderProblemsData from "../../config/possibleOrderProblems.json";
+import getProblemsIfReported from "../../common/OrderProblemsRetriever";
 
 export default function OrdersManager({languageVersion, orders, setOrders, products}) {
     const [possibleOrderStatuses] = useState(possibleOrderStatusesData);
+    const [possibleOrderProblems] = useState(possibleOrderProblemsData);
 
     function modifyOrderStatus(id, newStatus) {
         const newOrders = orders.map(order => order.id === id ? updateStatus(order, newStatus) : order);
         setOrders(newOrders);
     }
 
-    return orders.map(order => getSingleOrderManagementForm(languageVersion, order, products, possibleOrderStatuses, modifyOrderStatus));
+    return orders.map(order => getSingleOrderManagementForm(languageVersion, order, products, possibleOrderStatuses, modifyOrderStatus, possibleOrderProblems));
 }
 
 function updateStatus(order, newStatus) {
@@ -19,13 +22,14 @@ function updateStatus(order, newStatus) {
     return order;
 }
 
-function getSingleOrderManagementForm(languageVersion, order, products, possibleOrderStatuses, modifyOrderStatus) {
+function getSingleOrderManagementForm(languageVersion, order, products, possibleOrderStatuses, modifyOrderStatus, possibleOrderProblems) {
     return <div className="border-4 border-violet-400">
         {wrapInBasicDiv(`Id: ${order.id}`)}
         {wrapInBasicDiv(`Email: ${order.userEmail}`)}
         {getOrderProducts(order, products, languageVersion)}
         {getAddress(order, languageVersion)}
         {getStatus(order, languageVersion, possibleOrderStatuses)}
+        {getProblemsIfReported(order, languageVersion, possibleOrderProblems)}
         {getChangeStatusButtons(languageVersion, order, possibleOrderStatuses, modifyOrderStatus)}
     </div>
 }

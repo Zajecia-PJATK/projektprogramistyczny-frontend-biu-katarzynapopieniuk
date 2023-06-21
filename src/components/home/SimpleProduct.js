@@ -1,4 +1,3 @@
-import getMessage from "../../common/LanguageVersionMessageFinder";
 import getAverageRating from "../rating/AverageRatingCalculator";
 import {Link} from "react-router-dom";
 
@@ -6,7 +5,7 @@ export default function SimpleProduct({product, languageVersion}) {
     return <Link to={`/products/${product.id}`}>
         <div className="flex font-sans w-1/2 border-8 border-violet-200 block cursor-pointer">
             <div className="flex-none w-56 relative">
-                <img src={product.image} alt={product.name}
+                <img src={product.image} alt={getProductName(product, languageVersion)}
                      className="absolute inset-0 w-full h-full object-cover rounded-lg"
                      loading="lazy"/>
             </div>
@@ -36,20 +35,3 @@ export default function SimpleProduct({product, languageVersion}) {
 function getProductName(product, languageVersion) {
     return product.name.filter(name => name.language == languageVersion).map(name => name.value)[0];
 }
-
-const MESSAGES = [
-    {
-        "name": "averageRating",
-        "values": [
-            {
-                "language": "english",
-                "value": "average rating: "
-            },
-            {
-                "language": "polish",
-                "value": "średnia ocena: "
-            }
-        ]
-    }
-]
-

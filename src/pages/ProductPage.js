@@ -6,7 +6,7 @@ import CommentSection from "../components/CommentSection";
 export default function ProductPage({products, languageVersion, onAddProduct, onRate = f => f, user}) {
     const {id} = useParams();
     var product = products.filter(product => product.id === id);
-    if (product.length == 0) {
+    if (product.length === 0) {
         return <div>Product not found</div>
     }
     return <>

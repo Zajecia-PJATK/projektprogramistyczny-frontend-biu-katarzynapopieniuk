@@ -1,11 +1,17 @@
 import getMessage from "../common/LanguageVersionMessageFinder";
 import StarRating from "./rating/StarRating";
 import getAverageRating from "./rating/AverageRatingCalculator";
+import {
+    getProductCategory,
+    getProductColor,
+    getProductDescription,
+    getProductName
+} from "../common/ProductDataRetriever";
 
 export default function Product({product, languageVersion, onAddProduct, onRate = f => f}) {
     return <div className="flex font-sans w-1/2">
         <div className="flex-none w-56 relative">
-            <img src={product.image} alt={product.name}
+            <img src={product.image} alt={getProductName(product, languageVersion)}
                  className="absolute inset-0 w-full h-full object-cover rounded-lg"
                  loading="lazy"/>
         </div>
@@ -52,23 +58,6 @@ export default function Product({product, languageVersion, onAddProduct, onRate 
         </form>
     </div>
 }
-
-function getProductName(product, languageVersion) {
-    return product.name.filter(name => name.language === languageVersion).map(name => name.value)[0];
-}
-
-function getProductDescription(product, languageVersion) {
-    return product.description.filter(name => name.language === languageVersion).map(name => name.value)[0];
-}
-
-function getProductColor(product, languageVersion) {
-    return product.color.filter(name => name.language === languageVersion).map(name => name.value)[0];
-}
-
-function getProductCategory(product, languageVersion) {
-    return product.category.filter(name => name.language === languageVersion).map(name => name.value)[0];
-}
-
 const MESSAGES = [
     {
         "name": "addToBag",

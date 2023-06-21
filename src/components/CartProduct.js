@@ -4,7 +4,7 @@ import getAverageRating from "./rating/AverageRatingCalculator";
 
 export default function CartProduct({product, quantity, languageVersion, onRemove = f => f, updateCartItemCount = f => f}) {
     return <article className="flex items-start space-x-6 p-6 w-5/12">
-            <img src={product.image} alt="" width="60" height="88" className="flex-none rounded-md bg-slate-100" />
+            <img src={product.image} alt={getProductName(product, languageVersion)} width="60" height="88" className="flex-none rounded-md bg-slate-100" />
             <div className="min-w-0 relative flex-auto text-violet-600 font-bold">
                 <div className="font-semibold text-slate-900 truncate pr-20">{getProductName(product, languageVersion)}</div>
                 <dl className="mt-2 flex flex-wrap leading-6 text-2xl ml-20">

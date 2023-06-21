@@ -1,5 +1,6 @@
 import React from "react";
 import getMessage from "../common/LanguageVersionMessageFinder";
+import {Link} from "react-router-dom";
 
 export default function ProductManager({languageVersion, products, setProducts}) {
     return products.map(product => getProductDisplay(product, languageVersion));
@@ -17,6 +18,11 @@ function getProductDisplay(product, languageVersion) {
                 <div className="pl-5">
                     {getMessage(languageVersion, "quantity", LABELS)}
                     {product.quantity}
+                </div>
+                <div className="pl-5">
+                    <Link to={`/editproduct/${product.id}`} className="px-6 font-semibold rounded-full bg-violet-600 text-white">
+                        {getMessage(languageVersion, "edit", LABELS)}
+                    </Link>
                 </div>
             </dl>
             <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
@@ -39,6 +45,19 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Dostępna ilość: "
+            }
+        ]
+    },
+    {
+        "name" : "edit",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Edit"
+            },
+            {
+                "language" : "polish",
+                "value": "Edytuj"
             }
         ]
     }

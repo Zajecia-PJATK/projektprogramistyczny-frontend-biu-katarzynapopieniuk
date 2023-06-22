@@ -24,6 +24,7 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
     const {productCategories} = useProductCategories();
     const {colors} = useProductColors();
     const [validationMessage, setValidationMessage] = useState("");
+    const [photoSource] = useInput(product.image);
 
     function saveChanges() {
         product.name = [
@@ -59,6 +60,7 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
                 )}
         )[0];
 
+        product.image = photoSource.value;
 
         setValidationMessage(getValidationMessage(productPrice.value, product, languageVersion));
         if(validationMessage !== "") {
@@ -108,9 +110,9 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
             </div>
             <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
 
-            <h3 className="-mx-2 -my-3 flex w-full items-center justify-between px-2 py-3 text-gray-900 font-medium">
+            <div className="-mx-2 -my-3 flex w-full items-center justify-between px-2 py-3 text-gray-900 font-medium">
                 {getMessage(languageVersion, "category", LABELS)}
-            </h3>
+            </div>
             <ul>
                 {getProductCategories(productCategories, languageVersion, productCategory, onProductCategoryChange)}
             </ul>
@@ -122,6 +124,12 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
                 {getMessage(languageVersion, "price", LABELS)}
                 {getEditableNumberTextArea(productPrice)}
             </div>
+
+            <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
+            <div className="-mx-2 -my-3 flex w-full items-center justify-between px-2 py-3 text-gray-900 font-medium">
+                {getMessage(languageVersion, "photo", LABELS)}
+            </div>
+            {getEditableTextArea(photoSource)}
 
             <div className="text-red-600 font-bold">
                 {validationMessage}
@@ -217,6 +225,10 @@ function getValidationMessage(productPrice, product, languageVersion) {
         product.price = parseFloat(productPrice);
     } else {
         return `${getMessage(languageVersion, "priceMustMatchPattern", LABELS)} ${PRICE_PATTERN}`;
+    }
+
+    if(product.image === "") {
+        return `${getMessage(languageVersion, "required", LABELS)} ${getMessage(languageVersion, "photo", LABELS)}`;
     }
 
     return "";
@@ -440,6 +452,19 @@ const LABELS = [
             {
                 "language": "polish",
                 "value": "Zapis udany"
+            }
+        ]
+    },
+    {
+        "name": "photo",
+        "values": [
+            {
+                "language": "english",
+                "value": "Photo source"
+            },
+            {
+                "language": "polish",
+                "value": "Ścieżka do zdjęcia"
             }
         ]
     }

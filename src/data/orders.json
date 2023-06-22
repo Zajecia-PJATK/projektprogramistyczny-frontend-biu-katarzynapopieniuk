@@ -16,7 +16,7 @@
         "usedCouponId": null
       }
     ],
-    "promoCodeId": null,
+    "discountValue": null,
     "totalPrice": 200,
     "paymentMethod": "card",
     "status": "sent",
@@ -40,8 +40,8 @@
         "usedCouponId": null
       }
     ],
-    "promoCodeId": null,
-    "totalPrice": 200,
+    "discountValue": null,
+    "totalPrice": 400,
     "paymentMethod": "card",
     "status": "problemReported",
     "reportedProblems": [
@@ -68,8 +68,8 @@
         "usedCouponId": null
       }
     ],
-    "promoCodeId": null,
-    "totalPrice": 200,
+    "discountValue": null,
+    "totalPrice": 400,
     "paymentMethod": "card",
     "status": "problemSolved",
     "reportedProblems": [

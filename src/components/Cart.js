@@ -1,18 +1,41 @@
 import CartProduct from "./CartProduct";
 import getMessage from "../common/LanguageVersionMessageFinder";
-import {useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import getCartTotalPrice from "../common/CartTotalPriceCalculator";
+import {useInput} from "../common/InputUtils";
 
-export default function Cart({cart = [], setCart = f => f, products = [], languageVersion}) {
+export default function Cart({cart = [], setCart = f => f, products = [], languageVersion, discountCodes, discountValue, setDiscountValue}) {
     const [total, setTotal] = useState();
+    const [discountCode] = useInput("");
     useMemo(() => {
         setTotal(
-            getCartTotalPrice(cart, products)
+            getCartTotalPrice(cart, products, discountValue)
         );
-    }, [cart]);
+    }, [cart, discountValue]);
 
+    function checkDiscountValue() {
+        const discount = discountCodes.filter(code => code.code === discountCode.value)
+            .map(code => code.discount);
+        if(discount.length > 0) {
+            setDiscountValue(discount[0]);
+        } else {
+            setDiscountValue(0);
+        }
+    }
     return <>
         {getCartProducts(cart, setCart, products, languageVersion)}
+        <div>
+            {getMessage(languageVersion, "discountCode", LABELS)}
+        </div>
+        {getTextInput(discountCode)}
+        <div hidden={discountValue === 0} className="p-4">
+            {`${getMessage(languageVersion, "discountValue", LABELS)} ${discountValue} %`}
+        </div>
+        <button type="button"
+                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-violet-100 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800"
+                onClick={checkDiscountValue}>
+            {getMessage(languageVersion, "useDiscountCode", LABELS)}
+        </button>
         {getCartTotal(total, languageVersion)}
     </>
 }
@@ -44,8 +67,17 @@ function getProduct(simpleProduct, products) {
     return foundProducts[0];
 }
 
+function getTextInput(text) {
+    return <div>
+        <input type="text" {...text}
+               id="comment"
+               className="px-0 w-3/12 text-xl text-gray-900 border-0 focus:ring-0 focus:outline-none bg-amber-50"
+               placeholder="..." required/>
+    </div>
+}
+
 function getCartTotal(total, languageVersion) {
-    return <div className="min-w-0 relative flex-auto text-violet-600 font-bold">
+    return <div className="min-w-0 relative flex-auto text-violet-600 font-bold p-4">
         {getMessage(languageVersion, "total", LABELS)}
         {total}zł
     </div>
@@ -62,6 +94,45 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "suma: "
+            }
+        ]
+    },
+    {
+        "name" : "discountCode",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Discount code"
+            },
+            {
+                "language" : "polish",
+                "value": "Kod promocyjny"
+            }
+        ]
+    },
+    {
+        "name" : "discountValue",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Discount value: "
+            },
+            {
+                "language" : "polish",
+                "value": "Wysokość zniżki: "
+            }
+        ]
+    },
+    {
+        "name" : "useDiscountCode",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Use discount code"
+            },
+            {
+                "language" : "polish",
+                "value": "Użyj kodu promocyjnego"
             }
         ]
     }

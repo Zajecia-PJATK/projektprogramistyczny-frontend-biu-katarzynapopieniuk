@@ -1,6 +1,6 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import possibleOrderStatusesData from "../../config/possibleOrderStatuses.json";
-import getOrderProducts, {getAddress, getStatus} from "./OrderDataRetriever";
+import getOrderProducts, {getAddress, getOrderDiscount, getOrderTotal, getStatus} from "./OrderDataRetriever";
 import getMessage from "../../common/LanguageVersionMessageFinder";
 import possibleOrderProblemsData from "../../config/possibleOrderProblems.json";
 import getProblemsIfReported from "../../common/OrderProblemsRetriever";
@@ -27,6 +27,8 @@ function getSingleOrderManagementForm(languageVersion, order, products, possible
         {wrapInBasicDiv(`Id: ${order.id}`)}
         {wrapInBasicDiv(`Email: ${order.userEmail}`)}
         {getOrderProducts(order, products, languageVersion)}
+        {getOrderDiscount(order, languageVersion)}
+        {getOrderTotal(order.totalPrice, languageVersion)}
         {getAddress(order, languageVersion)}
         {getStatus(order, languageVersion, possibleOrderStatuses)}
         {getProblemsIfReported(order, languageVersion, possibleOrderProblems)}

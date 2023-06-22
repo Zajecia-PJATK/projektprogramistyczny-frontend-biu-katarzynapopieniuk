@@ -8,7 +8,7 @@ import getCartTotalPrice from "../../common/CartTotalPriceCalculator";
 import {v4 as uuidv4} from 'uuid';
 import {Link} from "react-router-dom";
 
-export default function OrderForm({languageVersion, cart=[], products = [], addOrder, loggedUserEmail, setCart}) {
+export default function OrderForm({languageVersion, cart=[], products = [], addOrder, loggedUserEmail, setCart, discountValue = 0}) {
     const [paymentMethod, setPaymentMethod] = useState("card");
     const [newOrderId, setNewOrderId] = useState("");
 
@@ -42,7 +42,7 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
                 .required(getMessage(languageVersion, "required", LABELS)),
         }),
         onSubmit: values => {
-           var newOrderId = onAddOrder(values, cart, addOrder, loggedUserEmail, products, getInitialStatusDependingOnPaymentMethod(paymentMethod));
+           var newOrderId = onAddOrder(values, cart, addOrder, loggedUserEmail, products, getInitialStatusDependingOnPaymentMethod(paymentMethod), discountValue);
             setCart([]);
             setNewOrderId(newOrderId);
         },
@@ -186,7 +186,7 @@ function getMaximumLengthMessage(length, languageVersion) {
     return `Musi mieć co najwyżej ${length} znaków`;
 }
 
-function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status) {
+function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status, discountValue = 0) {
     function createOrderProduct(product) {
         return {
             "id": product.id,
@@ -208,8 +208,8 @@ function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status) {
             "postcode": data.postCode
         },
         "products": orderProducts,
-        "promoCodeId": null,
-        "totalPrice": getCartTotalPrice(cart, products),
+        "discountValue": discountValue,
+        "totalPrice": getCartTotalPrice(cart, products, discountValue),
         "paymentMethod": "card",
         "status": status,
         "reportedProblems": []

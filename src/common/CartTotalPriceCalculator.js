@@ -1,6 +1,6 @@
-export default function getCartTotalPrice(cart, products) {
+export default function getCartTotalPrice(cart, products, discountValue = 0) {
     return cart.map(simpleProduct => getProductTotalPrice(simpleProduct, products))
-        .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        .reduce((accumulator, currentValue) => accumulator + currentValue, 0) * (100-discountValue) / 100;
 }
 
 function getProductTotalPrice(simpleProduct, products) {

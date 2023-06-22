@@ -3,9 +3,9 @@ import {Link} from "react-router-dom";
 import getMessage from "../common/LanguageVersionMessageFinder";
 import React from "react";
 
-export default function CartPage({cart=[], setCart = f => f, products = [], languageVersion, addOrder, loggedUserEmail}) {
+export default function CartPage({cart=[], setCart = f => f, products = [], languageVersion, addOrder, loggedUserEmail, discountCodes, discountValue, setDiscountValue}) {
     return <div className="p-4 sm:ml-64">
-        <Cart cart={cart} setCart={setCart} products={products} languageVersion={languageVersion}/>
+        <Cart cart={cart} setCart={setCart} products={products} languageVersion={languageVersion} discountCodes={discountCodes} discountValue={discountValue} setDiscountValue={setDiscountValue}/>
         {getCheckoutOrLoginButton(languageVersion, addOrder, loggedUserEmail, cart.length === 0)}
     </div>
 }

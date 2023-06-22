@@ -18,10 +18,12 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
     const [polishProductName] = useInput(getProductName(product, POLISH));
     const [englishDescription] = useInput(getProductDescription(product, ENGLISH));
     const [polishDescription] = useInput(getProductDescription(product, POLISH));
+    const [productPrice] = useInput(product.price.toString());
     const [productCategory, setProductCategory] = useState(getProductCategory(product, ENGLISH));
     const [productColor, setProductColor] = useState(getProductColor(product, ENGLISH));
     const {productCategories} = useProductCategories();
     const {colors} = useProductColors();
+    const [validationMessage, setValidationMessage] = useState("");
 
     function saveChanges() {
         product.name = [
@@ -57,6 +59,13 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
                 )}
         )[0];
 
+
+        setValidationMessage(getValidationMessage(productPrice.value, product, languageVersion));
+        if(validationMessage !== "") {
+            return;
+        }
+        setValidationMessage(getMessage(languageVersion, "saveSuccessful", LABELS));
+
         onSaveProduct(product);
     }
 
@@ -71,7 +80,7 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
     return <div className="flex font-sans w-1/2 p-4 sm:ml-64">
         <div className="flex-none w-56 relative">
             <img src={product.image} alt={getProductName(product, languageVersion)}
-                 className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                 className="absolute inset-0 w-full object-cover rounded-lg"
                  loading="lazy"/>
         </div>
         <form className="flex-auto p-2">
@@ -109,6 +118,14 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
                 {getColors(languageVersion, colors, productColor, onProductColorChange)}
             </ul>
 
+            <div className="flex-auto font-medium text-slate-900">
+                {getMessage(languageVersion, "price", LABELS)}
+                {getEditableNumberTextArea(productPrice)}
+            </div>
+
+            <div className="text-red-600 font-bold">
+                {validationMessage}
+            </div>
             <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
                     type="button" onClick={saveChanges}>
                 {getMessage(languageVersion, "saveProduct", LABELS)}
@@ -123,6 +140,16 @@ function getEditableTextArea(text) {
                   id="comment" rows="2"
                   className="px-0 w-10/12 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none bg-amber-50"
                   placeholder="..." required></textarea>
+    </div>
+}
+
+function getEditableNumberTextArea(text) {
+    return <div>
+        <input type="text" {...text}
+                  id="comment"
+                  pattern={PRICE_PATTERN}
+                  className="px-0 w-10/12 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none bg-amber-50"
+                  placeholder="..." required/>
     </div>
 }
 
@@ -175,6 +202,24 @@ function getColorListElement(languageVersion, color, onProductColorChange, produ
                    className="w-full py-3 ml-2 text-sm font-medium text-gray-900">{color.values.filter(color => color.language === languageVersion).map(color => color.value)[0]}</label>
         </div>
     </li>
+}
+
+function getValidationMessage(productPrice, product, languageVersion) {
+    if(product.name.filter(name => name.value === "").length > 0) {
+        return `${getMessage(languageVersion, "required", LABELS)} ${getMessage(languageVersion, "name", LABELS)}`;
+    }
+
+    if(product.description.filter(description => description.value === "").length > 0) {
+        return `${getMessage(languageVersion, "required", LABELS)} ${getMessage(languageVersion, "description", LABELS)}`;
+    }
+
+    if(!isNaN(parseFloat(productPrice))) {
+        product.price = parseFloat(productPrice);
+    } else {
+        return `${getMessage(languageVersion, "priceMustMatchPattern", LABELS)} ${PRICE_PATTERN}`;
+    }
+
+    return "";
 }
 
 function createEmptyProduct() {
@@ -319,8 +364,87 @@ const LABELS = [
                 "value": "Zapisz produkt"
             }
         ]
+    },
+    {
+        "name": "price",
+        "values": [
+            {
+                "language": "english",
+                "value": "Price [zł]"
+            },
+            {
+                "language": "polish",
+                "value": "Cena [zł]"
+            }
+        ]
+    },
+    {
+        "name": "priceMustMatchPattern",
+        "values": [
+            {
+                "language": "english",
+                "value": "Price must match pattern: "
+            },
+            {
+                "language": "polish",
+                "value": "Cena musi być zgodna z paternem: "
+            }
+        ]
+    },
+    {
+        "name": "required",
+        "values": [
+            {
+                "language": "english",
+                "value": "Required attribute: "
+            },
+            {
+                "language": "polish",
+                "value": "Pole wymagane: "
+            }
+        ]
+    },
+    {
+        "name": "name",
+        "values": [
+            {
+                "language": "english",
+                "value": "name"
+            },
+            {
+                "language": "polish",
+                "value": "nazwa"
+            }
+        ]
+    },
+    {
+        "name": "description",
+        "values": [
+            {
+                "language": "english",
+                "value": "description"
+            },
+            {
+                "language": "polish",
+                "value": "opis"
+            }
+        ]
+    },
+    {
+        "name": "saveSuccessful",
+        "values": [
+            {
+                "language": "english",
+                "value": "Save successful"
+            },
+            {
+                "language": "polish",
+                "value": "Zapis udany"
+            }
+        ]
     }
 ]
 
 const ENGLISH = "english";
 const POLISH = "polish";
+const PRICE_PATTERN = "[0-9]+[.]?[0-9]{0,2}";

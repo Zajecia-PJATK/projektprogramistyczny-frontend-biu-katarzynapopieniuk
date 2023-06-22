@@ -8,7 +8,15 @@ export default function ProductManager({languageVersion, products, setProducts})
         setProducts(newProducts);
     }
 
-    return products.map(product => getProductDisplay(product, languageVersion, onRemoveProduct));
+    return <>
+        <div className="pl-5 min-w-0 pt-5 font-semibold">
+                <Link to="/newproduct" className="px-6 font-semibold rounded-full bg-violet-600 text-white">
+                    {getMessage(languageVersion, "newProduct", LABELS)}
+                </Link>
+            </div>
+        <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
+        {products.map(product => getProductDisplay(product, languageVersion, onRemoveProduct))}
+    </>
 }
 
 function getProductDisplay(product, languageVersion, onRemoveProduct) {
@@ -82,6 +90,19 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Usuń"
+            }
+        ]
+    },
+    {
+        "name" : "newProduct",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Add new product"
+            },
+            {
+                "language" : "polish",
+                "value": "Dodaj nowy produkt"
             }
         ]
     }

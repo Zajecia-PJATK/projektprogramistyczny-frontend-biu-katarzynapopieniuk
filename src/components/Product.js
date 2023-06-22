@@ -53,7 +53,7 @@ export default function Product({product, languageVersion, onAddProduct, onRate 
                 {getStarRating(product, onRate)}
             </div>
             <div className="flex-auto flex space-x-4 ml-2">
-                {getMessage(languageVersion, "averageRating", MESSAGES)} {getAverageRating(product)}
+                {getMessage(languageVersion, "averageRating", MESSAGES)} {getAverageRating(product, languageVersion)}
             </div>
         </form>
     </div>

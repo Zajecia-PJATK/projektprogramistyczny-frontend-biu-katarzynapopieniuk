@@ -8,6 +8,7 @@ import React, {useState} from "react";
 import {useInput} from "../common/InputUtils";
 import {useProductCategories} from "./ProductCategoriesProvider";
 import {useProductColors} from "./ColorProvider";
+import {v4} from "uuid";
 
 export default function ProductCreator({languageVersion, product, onSaveProduct = f => f}) {
     if (product === undefined || product === null) {
@@ -236,7 +237,7 @@ function getValidationMessage(productPrice, product, languageVersion) {
 
 function createEmptyProduct() {
     return {
-        "id": null,
+        "id": v4(),
         "name": [
             {
                 "language": "english",

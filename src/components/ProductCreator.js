@@ -1,13 +1,16 @@
 import {
+    getProductCategory, getProductColor,
     getProductDescription,
     getProductName
 } from "../common/ProductDataRetriever";
 import getMessage from "../common/LanguageVersionMessageFinder";
-import React from "react";
+import React, {useState} from "react";
 import {useInput} from "../common/InputUtils";
+import {useProductCategories} from "./ProductCategoriesProvider";
+import {useProductColors} from "./ColorProvider";
 
-export default function ProductCreator({languageVersion, product,  onSaveProduct = f => f}) {
-    if(product === undefined || product === null) {
+export default function ProductCreator({languageVersion, product, onSaveProduct = f => f}) {
+    if (product === undefined || product === null) {
         product = createEmptyProduct();
     }
 
@@ -15,31 +18,54 @@ export default function ProductCreator({languageVersion, product,  onSaveProduct
     const [polishProductName] = useInput(getProductName(product, POLISH));
     const [englishDescription] = useInput(getProductDescription(product, ENGLISH));
     const [polishDescription] = useInput(getProductDescription(product, POLISH));
+    const [productCategory, setProductCategory] = useState(getProductCategory(product, ENGLISH));
+    const [productColor, setProductColor] = useState(getProductColor(product, ENGLISH));
+    const {productCategories} = useProductCategories();
+    const {colors} = useProductColors();
 
     function saveChanges() {
         product.name = [
             {
-                "language" : "english",
+                "language": "english",
                 "value": englishProductName.value
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": polishProductName.value
             }
         ];
 
         product.description = [
             {
-                "language" : "english",
+                "language": "english",
                 "value": englishDescription.value
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": polishDescription.value
             }
-        ]
+        ];
+
+        product.color = colors.filter(c => c.name === productColor)[0].values;
+        product.category = productCategories.filter(c => c.name === productCategory).map(
+            c => {
+                const catName = c.name;
+                return c.displayName.map(displayName => displayName.language === ENGLISH ? {
+                        "language" : ENGLISH,
+                        "value": catName
+                    } : displayName
+                )}
+        )[0];
 
         onSaveProduct(product);
+    }
+
+    function onProductCategoryChange(event) {
+        setProductCategory(event.target.value);
+    }
+
+    function onProductColorChange(event) {
+        setProductColor(event.target.value);
     }
 
     return <div className="flex font-sans w-1/2 p-4 sm:ml-64">
@@ -73,21 +99,82 @@ export default function ProductCreator({languageVersion, product,  onSaveProduct
             </div>
             <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
 
+            <h3 className="-mx-2 -my-3 flex w-full items-center justify-between px-2 py-3 text-gray-900 font-medium">
+                {getMessage(languageVersion, "category", LABELS)}
+            </h3>
+            <ul>
+                {getProductCategories(productCategories, languageVersion, productCategory, onProductCategoryChange)}
+            </ul>
+            <ul>
+                {getColors(languageVersion, colors, productColor, onProductColorChange)}
+            </ul>
+
             <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
                     type="button" onClick={saveChanges}>
                 {getMessage(languageVersion, "saveProduct", LABELS)}
             </button>
-
         </form>
     </div>
 }
+
 function getEditableTextArea(text) {
-        return <div>
+    return <div>
         <textarea {...text}
                   id="comment" rows="2"
                   className="px-0 w-10/12 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none bg-amber-50"
                   placeholder="..." required></textarea>
+    </div>
+}
+
+function getProductCategories(categories, languageVersion, productCategory, onProductCategoryChange) {
+    return categories.map(category => getSimpleProductCategory(category, languageVersion))
+        .map(category => getCategoryListElement(category, productCategory, onProductCategoryChange));
+}
+
+function getSimpleProductCategory(category, languageVersion) {
+    return {
+        category: category.name,
+        displayName: category.displayName.filter(name => name.language === languageVersion).map(name => name.value)[0]
+    };
+}
+
+function getCategoryListElement(category, productCategory, onProductCategoryChange) {
+    return <li className="w-full border-b border-gray-200 rounded-t-lg">
+        <div className="flex items-center pl-3">
+            <input type="radio" value={category.category} name="categories-radio"
+                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-5000"
+                   checked={productCategory === category.category}
+                   onChange={onProductCategoryChange}/>
+            <label htmlFor={`list-category-${category.name}`}
+                   className="w-full py-3 ml-2 text-sm font-medium text-gray-900">
+                {category.displayName}
+            </label>
         </div>
+    </li>
+}
+
+function getColors(languageVersion, productColors, productColor, onProductColorChange) {
+    return <div className="border-t border-gray-200 py-6">
+        <h3 className="-mx-2 -my-3 flex w-full items-center justify-between px-2 py-3 text-gray-900 font-medium">
+            {getMessage(languageVersion, "color", LABELS)}
+        </h3>
+        <div className="pt-6">
+            {productColors.map(color => getColorListElement(languageVersion, color, onProductColorChange, productColor))}
+        </div>
+    </div>
+}
+
+function getColorListElement(languageVersion, color, onProductColorChange, productColor) {
+    return <li className="w-full border-b border-gray-200 rounded-t-lg">
+        <div className="flex items-center pl-3">
+            <input name="color[]" value={color.name} type="radio"
+                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-5000"
+                   onChange={onProductColorChange}
+                   checked={productColor === color.name}/>
+            <label htmlFor="filter-mobile-color-5"
+                   className="w-full py-3 ml-2 text-sm font-medium text-gray-900">{color.values.filter(color => color.language === languageVersion).map(color => color.value)[0]}</label>
+        </div>
+    </li>
 }
 
 function createEmptyProduct() {
@@ -95,11 +182,11 @@ function createEmptyProduct() {
         "id": null,
         "name": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": ""
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": ""
             }
         ],
@@ -109,32 +196,32 @@ function createEmptyProduct() {
         "quantity": 0,
         "category": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": ""
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": ""
             }
         ],
         "color": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": ""
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": ""
             }
         ],
         "price": 0,
         "description": [
             {
-                "language" : "english",
+                "language": "english",
                 "value": ""
             },
             {
-                "language" : "polish",
+                "language": "polish",
                 "value": ""
             }
         ]
@@ -147,11 +234,11 @@ const LABELS = [
         "values": [
             {
                 "language": "english",
-                "value": "color: "
+                "value": "Color"
             },
             {
                 "language": "polish",
-                "value": "kolor: "
+                "value": "Kolor"
             }
         ]
     },
@@ -160,11 +247,11 @@ const LABELS = [
         "values": [
             {
                 "language": "english",
-                "value": "category: "
+                "value": "Category"
             },
             {
                 "language": "polish",
-                "value": "kategoria: "
+                "value": "Kategoria"
             }
         ]
     },

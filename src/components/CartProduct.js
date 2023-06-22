@@ -1,8 +1,7 @@
-import getMessage from "../common/LanguageVersionMessageFinder";
 import {FaTrash} from "react-icons/fa";
 import getAverageRating from "./rating/AverageRatingCalculator";
 
-export default function CartProduct({product, quantity, languageVersion, onRemove = f => f, updateCartItemCount = f => f}) {
+export default function CartProduct({product, quantity, languageVersion, onRemove = f => f}) {
     return <article className="flex items-start space-x-6 p-6 w-5/12">
             <img src={product.image} alt={getProductName(product, languageVersion)} width="60" height="88" className="flex-none rounded-md bg-slate-100" />
             <div className="min-w-0 relative flex-auto text-violet-600 font-bold">
@@ -38,5 +37,5 @@ export default function CartProduct({product, quantity, languageVersion, onRemov
 }
 
 function getProductName(product, languageVersion) {
-    return product.name.filter(name => name.language==languageVersion).map(name => name.value)[0];
+    return product.name.filter(name => name.language===languageVersion).map(name => name.value)[0];
 }

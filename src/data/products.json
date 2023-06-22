@@ -94,5 +94,245 @@
         "value": "Piżama pikachu dla fanów pokemonów"
       }
     ]
+  },
+  {
+    "id": "2ad8323c-10f2-11ee-be56-0242ac120002",
+    "name": [
+      {
+        "language" : "english",
+        "value": "winter pajama"
+      },
+      {
+        "language" : "polish",
+        "value": "zimowa piżama"
+      }
+    ],
+    "image": "https://ae01.alicdn.com/kf/Heaa38cfa822945be96d0f8678f5e02d6k.jpg",
+    "ratings": [2,4,5,4,5],
+    "rating": 0,
+    "quantity": 5,
+    "category": [
+      {
+        "language" : "english",
+        "value": "pajamas"
+      },
+      {
+        "language" : "polish",
+        "value": "piżama"
+      }
+    ],
+    "color": [
+      {
+        "language" : "english",
+        "value": "red"
+      },
+      {
+        "language" : "polish",
+        "value": "czerwony"
+      }
+    ],
+    "price": 110,
+    "description": [
+      {
+        "language" : "english",
+        "value": "Warm winter Women Pajamas Sleepwear"
+      },
+      {
+        "language" : "polish",
+        "value": "Zimowa ciepła piżama"
+      }
+    ]
+  },
+  {
+    "id": "5fd03b10-10f2-11ee-be56-0242ac120002",
+    "name": [
+      {
+        "language" : "english",
+        "value": "rabbit pajama"
+      },
+      {
+        "language" : "polish",
+        "value": "piżama z królikiem"
+      }
+    ],
+    "image": "https://ae01.alicdn.com/kf/S3fa79761b03f4a5f829b73b3bbb8a46fi.jpg?width=750&height=1110&hash=1860",
+    "ratings": [2,4,5,4,5],
+    "rating": 0,
+    "quantity": 5,
+    "category": [
+      {
+        "language" : "english",
+        "value": "pajamas"
+      },
+      {
+        "language" : "polish",
+        "value": "piżama"
+      }
+    ],
+    "color": [
+      {
+        "language" : "english",
+        "value": "green"
+      },
+      {
+        "language" : "polish",
+        "value": "zielony"
+      }
+    ],
+    "price": 80,
+    "description": [
+      {
+        "language" : "english",
+        "value": "Polyester Rabbit Onesies Women Pajamas Sleepwear"
+      },
+      {
+        "language" : "polish",
+        "value": "Piżama z królikiem poliestrowa, damska"
+      }
+    ]
+  },
+  {
+    "id": "a79a69c0-10f2-11ee-be56-0242ac120002",
+    "name": [
+      {
+        "language" : "english",
+        "value": "panda pajama"
+      },
+      {
+        "language" : "polish",
+        "value": "piżama w pandy"
+      }
+    ],
+    "image": "https://ammzonplcbkt.oss-cn-hongkong.aliyuncs.com/Erp/M266136D.jpg",
+    "ratings": [2,4,5,4,5],
+    "rating": 0,
+    "quantity": 5,
+    "category": [
+      {
+        "language" : "english",
+        "value": "pajamas"
+      },
+      {
+        "language" : "polish",
+        "value": "piżama"
+      }
+    ],
+    "color": [
+      {
+        "language" : "english",
+        "value": "white"
+      },
+      {
+        "language" : "polish",
+        "value": "biały"
+      }
+    ],
+    "price": 100,
+    "description": [
+      {
+        "language" : "english",
+        "value": "Panda Cartoon Onesies Women Pajamas Sleepwear"
+      },
+      {
+        "language" : "polish",
+        "value": "Piżama w pandy"
+      }
+    ]
+  },
+  {
+    "id": "1e5c7706-10f3-11ee-be56-0242ac120002",
+    "name": [
+      {
+        "language" : "english",
+        "value": "maxi flower dress"
+      },
+      {
+        "language" : "polish",
+        "value": "sukienka maxi w kwiaty"
+      }
+    ],
+    "image": "https://ae01.alicdn.com/kf/S0aaa913d625a4350a54b248516e40461Z.jpg",
+    "ratings": [2,3,5,4,4],
+    "rating": 0,
+    "quantity": 5,
+    "category": [
+      {
+        "language" : "english",
+        "value": "dress"
+      },
+      {
+        "language" : "polish",
+        "value": "sukienka"
+      }
+    ],
+    "color": [
+      {
+        "language" : "english",
+        "value": "white"
+      },
+      {
+        "language" : "polish",
+        "value": "biały"
+      }
+    ],
+    "price": 150,
+    "description": [
+      {
+        "language" : "english",
+        "value": "Women Maxi Dress Summer Elegant Floral Printed Off Shoulder V Neck Slit Ruffled Irregular Nipped Waist Dresses Streetwear"
+      },
+      {
+        "language" : "polish",
+        "value": "Maxi sukienka lato elegancki kwiatowy nadruk z dekoltem V dekolt z rozcięciem nieregularne ściągane w talii sukienki Streetwear"
+      }
+    ]
+  },
+  {
+    "id": "a1936378-10f3-11ee-be56-0242ac120002",
+    "name": [
+      {
+        "language" : "english",
+        "value": "butterfly dress"
+      },
+      {
+        "language" : "polish",
+        "value": "sukienka z motylami"
+      }
+    ],
+    "image": "https://ae01.alicdn.com/kf/H3a97248591e0430abbe5e6f553a9f63bx.jpg",
+    "ratings": [1,3,5,1,4],
+    "rating": 0,
+    "quantity": 5,
+    "category": [
+      {
+        "language" : "english",
+        "value": "dress"
+      },
+      {
+        "language" : "polish",
+        "value": "sukienka"
+      }
+    ],
+    "color": [
+      {
+        "language" : "english",
+        "value": "white"
+      },
+      {
+        "language" : "polish",
+        "value": "biały"
+      }
+    ],
+    "price": 150,
+    "description": [
+      {
+        "language" : "english",
+        "value": "Luxury Girls Christmas Dress for Wedding and Party Gown Holy Communion Princess Dress Elegant Appliques Flower Girl Prom Costume"
+      },
+      {
+        "language" : "polish",
+        "value": "Luksusowe dziewczęce sukienka świąteczna na ślub i suknia wieczorowa komunia święta księżniczka sukienka eleganckie aplikacje Flower Girl Prom Costume"
+      }
+    ]
   }
 ]

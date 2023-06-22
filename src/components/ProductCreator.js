@@ -255,21 +255,21 @@ function createEmptyProduct() {
         "category": [
             {
                 "language": "english",
-                "value": ""
+                "value": "dress"
             },
             {
                 "language": "polish",
-                "value": ""
+                "value": "sukienki"
             }
         ],
         "color": [
             {
                 "language": "english",
-                "value": ""
+                "value": "white"
             },
             {
                 "language": "polish",
-                "value": ""
+                "value": "biały"
             }
         ],
         "price": 0,

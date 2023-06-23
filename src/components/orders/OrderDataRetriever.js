@@ -64,6 +64,14 @@ export function getOrderDiscount(order, languageVersion) {
     </div>
 }
 
+export function getUsedProductCodes(order, languageVersion) {
+    const usedCodes = order.products.map(product => product.usedCouponId).filter(code => code !== null);
+    return <div hidden={usedCodes.length === 0}>
+        {getMessage(languageVersion, "usedCodes", LABELS)}
+        {usedCodes.join(', ')}
+    </div>
+}
+
 const LABELS = [
     {
         "name": "address",
@@ -153,6 +161,19 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Wysokość zniżki: "
+            }
+        ]
+    },
+    {
+        "name" : "usedCodes",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Used product coupons: "
+            },
+            {
+                "language" : "polish",
+                "value": "Użyte kupony produktowe: "
             }
         ]
     }

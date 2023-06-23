@@ -4,14 +4,16 @@ import React, {useMemo, useState} from "react";
 import getCartTotalPrice from "../common/CartTotalPriceCalculator";
 import {useInput} from "../common/InputUtils";
 
-export default function Cart({cart = [], setCart = f => f, products = [], languageVersion, discountCodes, discountValue, setDiscountValue}) {
+export default function Cart({cart = [], setCart = f => f, products = [], languageVersion, discountCodes, discountValue,
+                                 setDiscountValue, productCoupons, usedProductCoupons, setUsedProductCoupons}) {
     const [total, setTotal] = useState();
     const [discountCode] = useInput("");
+    const [couponCode] = useInput("");
     useMemo(() => {
         setTotal(
-            getCartTotalPrice(cart, products, discountValue)
+            getCartTotalPrice(cart, products, discountValue, usedProductCoupons)
         );
-    }, [cart, discountValue]);
+    }, [cart, discountValue, usedProductCoupons]);
 
     function checkDiscountValue() {
         const discount = discountCodes.filter(code => code.code === discountCode.value)
@@ -21,6 +23,19 @@ export default function Cart({cart = [], setCart = f => f, products = [], langua
         } else {
             setDiscountValue(0);
         }
+    }
+
+    function onAddProductCoupon() {
+        const foundCoupon = productCoupons.filter(code => code.code === couponCode.value);
+        if(foundCoupon.length === 0) {
+            return;
+        }
+
+        if(usedProductCoupons.filter(code => code.productId === foundCoupon.productId).length > 0) {
+            return;
+        }
+
+        setUsedProductCoupons([...usedProductCoupons, foundCoupon[0]]);
     }
     return <>
         {getCartProducts(cart, setCart, products, languageVersion)}
@@ -36,6 +51,19 @@ export default function Cart({cart = [], setCart = f => f, products = [], langua
                 onClick={checkDiscountValue}>
             {getMessage(languageVersion, "useDiscountCode", LABELS)}
         </button>
+        <div>
+            {getMessage(languageVersion, "productCoupon", LABELS)}
+        </div>
+        {getTextInput(couponCode)}
+        <button type="button"
+                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-violet-100 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800"
+                onClick={onAddProductCoupon}>
+            {getMessage(languageVersion, "useProductCoupon", LABELS)}
+        </button>
+        <div hidden={usedProductCoupons.length === 0} className="p-4">
+            {getMessage(languageVersion, "usedCodes", LABELS)}
+            {usedProductCoupons.map(code => code.code).join(', ')}
+        </div>
         {getCartTotal(total, languageVersion)}
     </>
 }
@@ -133,6 +161,45 @@ const LABELS = [
             {
                 "language" : "polish",
                 "value": "Użyj kodu promocyjnego"
+            }
+        ]
+    },
+    {
+        "name" : "productCoupon",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Product coupon code"
+            },
+            {
+                "language" : "polish",
+                "value": "Kod kuponu na produkt"
+            }
+        ]
+    },
+    {
+        "name" : "useProductCoupon",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Use product coupon"
+            },
+            {
+                "language" : "polish",
+                "value": "Użyj kuponu"
+            }
+        ]
+    },
+    {
+        "name" : "usedCodes",
+        "values": [
+            {
+                "language" : "english",
+                "value": "Used product coupons: "
+            },
+            {
+                "language" : "polish",
+                "value": "Użyte kupony produktowe: "
             }
         ]
     }

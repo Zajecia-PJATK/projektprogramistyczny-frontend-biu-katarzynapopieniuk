@@ -1,6 +1,12 @@
 import React, {useState} from "react";
 import possibleOrderStatusesData from "../../config/possibleOrderStatuses.json";
-import getOrderProducts, {getAddress, getOrderDiscount, getOrderTotal, getStatus} from "./OrderDataRetriever";
+import getOrderProducts, {
+    getAddress,
+    getOrderDiscount,
+    getOrderTotal,
+    getStatus,
+    getUsedProductCodes
+} from "./OrderDataRetriever";
 import getMessage from "../../common/LanguageVersionMessageFinder";
 import possibleOrderProblemsData from "../../config/possibleOrderProblems.json";
 import getProblemsIfReported from "../../common/OrderProblemsRetriever";
@@ -28,6 +34,7 @@ function getSingleOrderManagementForm(languageVersion, order, products, possible
         {wrapInBasicDiv(`Email: ${order.userEmail}`)}
         {getOrderProducts(order, products, languageVersion)}
         {getOrderDiscount(order, languageVersion)}
+        {getUsedProductCodes(order, languageVersion)}
         {getOrderTotal(order.totalPrice, languageVersion)}
         {getAddress(order, languageVersion)}
         {getStatus(order, languageVersion, possibleOrderStatuses)}

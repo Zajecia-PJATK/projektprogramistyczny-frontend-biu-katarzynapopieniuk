@@ -23,6 +23,7 @@ import ReturnPolicyPage from "./pages/ReturnPolicyPage";
 import EditProductPage from "./pages/EditProductPage";
 import NewProductPage from "./pages/NewProductPage";
 import discountCodesData from "./config/discountCodes.json";
+import productCouponsData from "./config/productCoupons.json";
 
 function App() {
     const [products, setProducts] = useState(productsData);
@@ -39,6 +40,8 @@ function App() {
     const [orders, setOrders] = useState(ordersData);
     const [discountCodes, setDiscountCodes] = useState(discountCodesData);
     const [discountValue, setDiscountValue] = useState(0);
+    const [productCoupons, setProductCoupons] = useState(productCouponsData);
+    const [usedProductCoupons, setUsedProductCoupons] = useState([]);
 
     const [isLoggedUserAdmin, setIsLoggedUserAdmin] = useState(false);
     useMemo(() => {
@@ -89,7 +92,10 @@ function App() {
                                                        loggedUserEmail={loggedUserEmail}
                                                        discountCodes={discountCodes}
                                                        discountValue={discountValue}
-                                                       setDiscountValue={setDiscountValue}/>}/>
+                                                       setDiscountValue={setDiscountValue}
+                                                       productCoupons={productCoupons}
+                                                       usedProductCoupons={usedProductCoupons}
+                                                       setUsedProductCoupons={setUsedProductCoupons}/>}/>
                 <Route path="/products/:id"
                        element={<ProductPage products={products} languageVersion={languageVersion} cart={cart}
                                              onAddProduct={(id) => addProduct(id)}
@@ -102,7 +108,8 @@ function App() {
                 <Route path="/checkout"
                        element={<CheckoutPage cart={cart} products={products} languageVersion={languageVersion}
                                               addOrder={addOrder} loggedUserEmail={loggedUserEmail}
-                                              setCart={setCart} discountValue={discountValue}/>}/>
+                                              setCart={setCart} discountValue={discountValue}
+                                              usedProductCoupons={usedProductCoupons}/>}/>
                 <Route path="/myorders" element={<MyOrdersPage languageVersion={languageVersion} orders={orders}
                                                                loggedUserEmail={loggedUserEmail}
                                                                products={products}/>}/>

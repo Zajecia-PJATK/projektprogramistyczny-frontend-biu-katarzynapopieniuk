@@ -8,7 +8,7 @@ import getCartTotalPrice from "../../common/CartTotalPriceCalculator";
 import {v4 as uuidv4} from 'uuid';
 import {Link} from "react-router-dom";
 
-export default function OrderForm({languageVersion, cart=[], products = [], addOrder, loggedUserEmail, setCart, discountValue = 0}) {
+export default function OrderForm({languageVersion, cart=[], products = [], addOrder, loggedUserEmail, setCart, discountValue = 0, usedProductCoupons=[]}) {
     const [paymentMethod, setPaymentMethod] = useState("card");
     const [newOrderId, setNewOrderId] = useState("");
 
@@ -42,7 +42,7 @@ export default function OrderForm({languageVersion, cart=[], products = [], addO
                 .required(getMessage(languageVersion, "required", LABELS)),
         }),
         onSubmit: values => {
-           var newOrderId = onAddOrder(values, cart, addOrder, loggedUserEmail, products, getInitialStatusDependingOnPaymentMethod(paymentMethod), discountValue);
+           var newOrderId = onAddOrder(values, cart, addOrder, loggedUserEmail, products, getInitialStatusDependingOnPaymentMethod(paymentMethod), discountValue, usedProductCoupons);
             setCart([]);
             setNewOrderId(newOrderId);
         },
@@ -186,13 +186,14 @@ function getMaximumLengthMessage(length, languageVersion) {
     return `Musi mieć co najwyżej ${length} znaków`;
 }
 
-function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status, discountValue = 0) {
+function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status, discountValue = 0, usedProductCoupons=[]) {
     function createOrderProduct(product) {
+        var matchingCoupon = usedProductCoupons.filter(coupon => coupon.productId === product.id);
         return {
             "id": product.id,
             "quantity": product.quantity,
             "price": product.price,
-            "usedCouponId": null
+            "usedCouponId": matchingCoupon.length > 0 ? matchingCoupon[0].code : null
         }
     }
 
@@ -209,7 +210,7 @@ function onAddOrder(data, cart, addOrder, loggedUserEmail, products, status, dis
         },
         "products": orderProducts,
         "discountValue": discountValue,
-        "totalPrice": getCartTotalPrice(cart, products, discountValue),
+        "totalPrice": getCartTotalPrice(cart, products, discountValue, usedProductCoupons),
         "paymentMethod": "card",
         "status": status,
         "reportedProblems": []

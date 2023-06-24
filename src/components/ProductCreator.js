@@ -26,7 +26,7 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
     const {colors} = useProductColors();
     const [validationMessage, setValidationMessage] = useState("");
     const [photoSource] = useInput(product.image);
-
+    const [availableQuantity] = useInput(product.quantity);
     function saveChanges() {
         product.name = [
             {
@@ -63,7 +63,7 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
 
         product.image = photoSource.value;
 
-        setValidationMessage(getValidationMessage(productPrice.value, product, languageVersion));
+        setValidationMessage(getValidationMessage(productPrice.value, product, languageVersion, availableQuantity.value));
         if(validationMessage !== "") {
             return;
         }
@@ -131,6 +131,12 @@ export default function ProductCreator({languageVersion, product, onSaveProduct 
                 {getMessage(languageVersion, "photo", LABELS)}
             </div>
             {getEditableTextArea(photoSource)}
+
+            <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
+            <div className="-mx-2 -my-3 flex w-full items-center justify-between px-2 py-3 text-gray-900 font-medium">
+                {getMessage(languageVersion, "quantity", LABELS)}
+            </div>
+            {getEditableNumberTextArea(availableQuantity)}
 
             <div className="text-red-600 font-bold">
                 {validationMessage}
@@ -213,7 +219,7 @@ function getColorListElement(languageVersion, color, onProductColorChange, produ
     </li>
 }
 
-function getValidationMessage(productPrice, product, languageVersion) {
+function getValidationMessage(productPrice, product, languageVersion, availableQuantity) {
     if(product.name.filter(name => name.value === "").length > 0) {
         return `${getMessage(languageVersion, "required", LABELS)} ${getMessage(languageVersion, "name", LABELS)}`;
     }
@@ -230,6 +236,12 @@ function getValidationMessage(productPrice, product, languageVersion) {
 
     if(product.image === "") {
         return `${getMessage(languageVersion, "required", LABELS)} ${getMessage(languageVersion, "photo", LABELS)}`;
+    }
+
+    if(!isNaN(parseInt(availableQuantity))) {
+        product.quantity = availableQuantity;
+    } else {
+        return getMessage(languageVersion, "availableQuantityMustBeNumeric", LABELS);
     }
 
     return "";
@@ -466,6 +478,32 @@ const LABELS = [
             {
                 "language": "polish",
                 "value": "Ścieżka do zdjęcia"
+            }
+        ]
+    },
+    {
+        "name": "quantity",
+        "values": [
+            {
+                "language": "english",
+                "value": "Available quantity"
+            },
+            {
+                "language": "polish",
+                "value": "Dostępna ilość"
+            }
+        ]
+    },
+    {
+        "name": "availableQuantityMustBeNumeric",
+        "values": [
+            {
+                "language": "english",
+                "value": "Available quantity must be numeric"
+            },
+            {
+                "language": "polish",
+                "value": "Dostępna ilość musi być liczbą"
             }
         ]
     }

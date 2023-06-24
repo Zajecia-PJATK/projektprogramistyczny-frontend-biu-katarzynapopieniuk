@@ -53,19 +53,6 @@ function getProductName(product, languageVersion) {
 
 const LABELS = [
     {
-        "name" : "quantity",
-        "values": [
-            {
-                "language" : "english",
-                "value": "Available quantity: "
-            },
-            {
-                "language" : "polish",
-                "value": "Dostępna ilość: "
-            }
-        ]
-    },
-    {
         "name" : "edit",
         "values": [
             {

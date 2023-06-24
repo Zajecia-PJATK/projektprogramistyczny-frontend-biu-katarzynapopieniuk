@@ -65,6 +65,21 @@ function App() {
 
     function addOrder(order) {
         setOrders([...orders, order]);
+
+        function updateQuantityIfBought(product) {
+            var foundBoughtProducts = order.products.filter(p => p.id === product.id);
+            if(foundBoughtProducts.length === 0) {
+                return product;
+            }
+
+            var foundBoughtProduct = foundBoughtProducts[0];
+
+            product.quantity = product.quantity - foundBoughtProduct.quantity;
+            return product;
+        }
+
+        var newProducts = products.map(product => updateQuantityIfBought(product));
+        setProducts(newProducts);
     }
 
     function canAddProductToCart(product) {

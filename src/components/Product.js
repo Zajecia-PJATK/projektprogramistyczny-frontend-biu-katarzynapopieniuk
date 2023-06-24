@@ -2,13 +2,14 @@ import getMessage from "../common/LanguageVersionMessageFinder";
 import StarRating from "./rating/StarRating";
 import getAverageRating from "./rating/AverageRatingCalculator";
 import {
+    getAvailableAmountSection,
     getProductCategory,
     getProductColor,
     getProductDescription,
     getProductName
 } from "../common/ProductDataRetriever";
 
-export default function Product({product, languageVersion, onAddProduct, onRate = f => f}) {
+export default function Product({product, languageVersion, onAddProduct, onRate = f => f, canAddProductToCart = f => true}) {
     return <div className="flex font-sans w-1/2">
         <div className="flex-none w-56 relative">
             <img src={product.image} alt={getProductName(product, languageVersion)}
@@ -25,10 +26,12 @@ export default function Product({product, languageVersion, onAddProduct, onRate 
                 </div>
 
             </div>
+            {getAvailableAmountSection(product, languageVersion)}
             <div className="flex space-x-4 mb-5 text-sm font-medium ml-5">
                 <div className="flex-auto flex space-x-4">
                     <button className="h-10 px-6 font-semibold rounded-full bg-violet-600 text-white"
-                            type="button" onClick={() => onAddProduct(product.id)}>
+                            type="button" onClick={() => onAddProduct(product.id)}
+                            disabled={!canAddProductToCart(product)}>
                         {getAddToBagMessage(languageVersion)}
                     </button>
                 </div>

@@ -67,6 +67,16 @@ function App() {
         setOrders([...orders, order]);
     }
 
+    function canAddProductToCart(product) {
+        const matchingProductQuantity = cart.filter(p => p.id === product.id)
+            .map(p => p.quantity);
+        if(matchingProductQuantity.length === 0) {
+            return product.quantity > 0;
+        }
+
+        return matchingProductQuantity[0] < product.quantity;
+    }
+
     return (
         <div className="App">
             <nav className="navigation">
@@ -100,7 +110,8 @@ function App() {
                        element={<ProductPage products={products} languageVersion={languageVersion} cart={cart}
                                              onAddProduct={(id) => addProduct(id)}
                                              onRate={(id, rating) => onRateProduct(id, rating, products, setProducts)}
-                                             user={getUserByEmail(loggedUserEmail, accounts)}/>}/>
+                                             user={getUserByEmail(loggedUserEmail, accounts)}
+                                             canAddProductToCart={canAddProductToCart}/>}/>
                 <Route path="/signup" element={<SignUpPage languageVersion={languageVersion} accounts={accounts}
                                                            setAccounts={setAccounts}/>}/>
                 <Route path="/login" element={<LoginPage languageVersion={languageVersion} accounts={accounts}

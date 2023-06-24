@@ -1,6 +1,7 @@
 import React from "react";
 import getMessage from "../common/LanguageVersionMessageFinder";
 import {Link} from "react-router-dom";
+import {getAvailableAmountSection} from "../common/ProductDataRetriever";
 
 export default function ProductManager({languageVersion, products, setProducts}) {
     function onRemoveProduct(product) {
@@ -28,10 +29,7 @@ function getProductDisplay(product, languageVersion, onRemoveProduct) {
                 <div className="pl-5">
                     {product.price} zł
                 </div>
-                <div className="pl-5">
-                    {getMessage(languageVersion, "quantity", LABELS)}
-                    {product.quantity}
-                </div>
+                {getAvailableAmountSection(product, languageVersion)}
                 <div className="pl-5">
                     <Link to={`/editproduct/${product.id}`} className="px-6 font-semibold rounded-full bg-violet-600 text-white">
                         {getMessage(languageVersion, "edit", LABELS)}
